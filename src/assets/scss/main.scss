@@ -28,11 +28,30 @@ h1 {
     border-color: $secondary-color;
 }
 
-h1 {
-    margin-bottom: 1rem;
-}
-
 .texto-justificado {
     text-align: justify;
     text-justify:inter-word;
 }
+
+.footer {
+    color: gray;
+}
+
+label.error {
+    color: red;
+    font-size: 1rem;
+    display: block;
+    margin-top: 5px;
+}
+
+input.error, textarea.error {
+    border: 1px dashed red;
+    font-weight: 300;
+    color: red;
+}
+
+.errorTxt{
+    border: 1px dashed red;
+    font-weight: 300;
+    color: red;
+  }
