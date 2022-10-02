@@ -8,12 +8,16 @@ body {
     background-color: $background-color;
 }
 
+nav {
+    background-color: whitesmoke;
+}
+
 main {
     margin: 2rem 4rem;
 }
 
-nav {
-    background-color: whitesmoke;
+h1 {
+    margin-bottom: 1rem;
 }
 
 .nav-link {
@@ -22,8 +26,4 @@ nav {
 
 .card {
     border-color: $secondary-color;
-}
-
-h1 {
-    margin-bottom: 1rem;
 }
