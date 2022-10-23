@@ -1,11 +1,13 @@
 import { Link } from "react-router-dom";
+import logo from "../assets/img/LOGO.png";
+import "./Navbar.scss";
 
 const Navbar = () => {
   return (
     <header>
       <nav className="navbar navbar-expand-lg bg-light">
         <div className="container-fluid">
-          <img src="assets/img/LOGO.png" alt="logo" width="250px" />
+          <img src={logo} alt="logo" width="250px" />
           <button
             className="navbar-toggler"
             type="button"

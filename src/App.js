@@ -12,9 +12,7 @@ import Navbar from "./components/Navbar";
 function App() {
   return (
     <BrowserRouter>
-      <header>
-        <Navbar />
-      </header>
+      <Navbar />
       <main>
         <Routes>
           <Route path="/extpecies" element={<Extpecies />} />
