@@ -36,22 +36,21 @@ const Navbar = () => {
                 </Link>
               </li>
               <div className="m-1 ms-auto">
-                <button
-                  onclick="location.href='./login'"
-                  className="btn btn-sm btn-primary"
-                  type="button"
-                >
-                  Iniciar Sesión
-                </button>
+                <Link to="/login">
+                  <button className="btn btn-sm btn-primary" type="button">
+                    Iniciar Sesión
+                  </button>
+                </Link>
               </div>
               <div className="m-1 ms-auto">
-                <button
-                  onclick="location.href='./registro'"
-                  className="btn btn-sm btn-outline-primary"
-                  type="button"
-                >
-                  Registrarse
-                </button>
+                <Link to="/registro">
+                  <button
+                    className="btn btn-sm btn-outline-primary"
+                    type="button"
+                  >
+                    Registrarse
+                  </button>
+                </Link>
               </div>
             </ul>
           </div>
