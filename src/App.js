@@ -8,6 +8,7 @@ import Prueba from "./pages/Prueba";
 import Registro from "./pages/Registro";
 
 import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
           <Route path="/registro" element={<Registro />} />
         </Routes>
       </main>
+      <Footer />
     </BrowserRouter>
   );
 }
