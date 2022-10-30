@@ -84,6 +84,13 @@ const Prueba = () => {
                 </div>
               );
             })}
+            <div className="d-flex justify-content-center mb-3">
+              <input
+                type="submit"
+                value="Enviar"
+                className="btn btn-primary btn-block btn-lg text-white"
+              />
+            </div>
           </form>
         </div>
       </div>
