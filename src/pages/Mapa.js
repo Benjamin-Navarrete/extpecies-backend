@@ -1,3 +1,4 @@
+// import mapa from "../assets/img/mapa.png";
 import MapComponent from "../components/MapComponent";
 
 const Mapa = () => {

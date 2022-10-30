@@ -26,7 +26,7 @@ const validate = (values) => {
     errors.repeatPassord = "Campo requerido";
   } else if (values.repeatPassord.length < 6) {
     errors.repeatPassord = "La contraseña debe contener al menos 6 caracteres";
-  } else if (values.repeatPassord != values.password) {
+  } else if (values.repeatPassord !== values.password) {
     errors.repeatPassord = "Las contraseñas no coinciden";
   }
 
