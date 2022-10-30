@@ -29,7 +29,7 @@ const Login = () => {
     },
     validate,
     onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+      alert("Form enviado, datos: " + JSON.stringify(values, null, 2));
     },
   });
   return (
