@@ -10,7 +10,7 @@ const MapComponent = () => {
         <iframe
           title="Mapa extpecies"
           width="100%"
-          height="500px"
+          height="700px"
           id="gmap_canvas"
           src="https://maps.google.com/maps?q=pontificia%20universidad%20catolica%20de%20valparaiso%20inrofmatica&t=&z=15&ie=UTF8&iwloc=&output=embed"
           frameborder="0"
