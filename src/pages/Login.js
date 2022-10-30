@@ -75,7 +75,7 @@ const Login = () => {
                       onBlur={formik.handleBlur}
                       value={formik.values.password}
                     />
-                    {formik.touched.email && formik.errors.email ? (
+                    {formik.touched.password && formik.errors.password ? (
                       <div className="labelError">{formik.errors.password}</div>
                     ) : null}
                   </div>

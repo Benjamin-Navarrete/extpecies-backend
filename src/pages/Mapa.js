@@ -1,17 +1,13 @@
-import mapa from "../assets/img/mapa.png";
+// import mapa from "../assets/img/mapa.png";
+import MapComponent from "../components/MapComponent";
 
 const Mapa = () => {
   return (
     <div className="card">
       <div className="card-body">
         <div className="row">
-          <div className="col-12 col-md-6">
-            <img
-              src={mapa}
-              alt=""
-              width="75%"
-              className=" d-flex justify-content-center align-items-center"
-            />
+          <div className="col-12 col-lg-6">
+            <MapComponent />
           </div>
           <div className="col-12 col-lg-6">
             <h1 className="text-center">Info especie seleccionada</h1>
