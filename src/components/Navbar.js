@@ -5,7 +5,7 @@ import "./Navbar.scss";
 const Navbar = () => {
   return (
     <header>
-      <nav className="navbar navbar-expand-lg bg-light">
+      <nav className="navbar navbar-expand-lg">
         <div className="container-fluid">
           <img src={logo} alt="logo" width="250px" />
           <button

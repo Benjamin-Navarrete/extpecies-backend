@@ -9,7 +9,7 @@ const Mapa = () => {
             <img
               src={mapa}
               alt=""
-              width="100%"
+              width="75%"
               className=" d-flex justify-content-center align-items-center"
             />
           </div>

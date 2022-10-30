@@ -1,6 +1,37 @@
 import { Link } from "react-router-dom";
+import { useFormik } from "formik";
+
+import "./Login.scss";
+
+const validate = (values) => {
+  const errors = {};
+
+  if (!values.email) {
+    errors.email = "Campo requerido";
+  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+    errors.email = "Dirección de correo inválida";
+  }
+
+  if (!values.password) {
+    errors.password = "Campo requerido";
+  } else if (values.password.length < 6) {
+    errors.password = "La contraseña debe contener al menos 6 caracteres";
+  }
+
+  return errors;
+};
 
 const Login = () => {
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    validate,
+    onSubmit: (values) => {
+      alert(JSON.stringify(values, null, 2));
+    },
+  });
   return (
     <div className="d-flex align-items-center h-100">
       <div className="container h-100">
@@ -12,16 +43,23 @@ const Login = () => {
                   Iniciar Sesión
                 </h2>
 
-                <form id="form-login">
+                <form onSubmit={formik.handleSubmit}>
                   <div className="form-outline mb-4">
                     <label className="form-label" for="email">
                       Correo
                     </label>
                     <input
-                      type="email"
+                      id="email"
                       name="email"
+                      type="email"
                       className="form-control form-control-lg"
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      value={formik.values.email}
                     />
+                    {formik.touched.email && formik.errors.email ? (
+                      <div className="labelError">{formik.errors.email}</div>
+                    ) : null}
                   </div>
 
                   <div className="form-outline mb-4">
@@ -29,10 +67,17 @@ const Login = () => {
                       Contraseña
                     </label>
                     <input
+                      id="password"
                       type="password"
                       name="password"
                       className="form-control form-control-lg"
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      value={formik.values.password}
                     />
+                    {formik.touched.email && formik.errors.email ? (
+                      <div className="labelError">{formik.errors.password}</div>
+                    ) : null}
                   </div>
 
                   <div className="d-flex justify-content-center">
