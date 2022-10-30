@@ -8,6 +8,7 @@ const MapComponent = () => {
       </div>
       <div className="gmap_canvas m-4 mr-3">
         <iframe
+          title="Mapa extpecies"
           width="100%"
           height="500px"
           id="gmap_canvas"
@@ -15,7 +16,6 @@ const MapComponent = () => {
           frameborder="0"
           scrolling="no"
         ></iframe>
-        <a href="https://123movies-to.org"></a>
         <br />
       </div>
     </div>
