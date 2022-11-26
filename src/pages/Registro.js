@@ -10,6 +10,12 @@ const validate = (values) => {
     errors.nombre = "Nombre contiene caracteres inválidos";
   }
 
+  if (!values.apellido) {
+    errors.apellido = "Campo requerido";
+  } else if (!/^[A-ZñÑáéíóúÁÉÍÓÚ]{1,55}$/i.test(values.apellido)) {
+    errors.apellido = "Apellidos contiene caracteres inválidos";
+  }
+
   if (!values.email) {
     errors.email = "Campo requerido";
   } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
@@ -43,7 +49,7 @@ const Registro = () => {
       nombre: "",
       email: "",
       password: "",
-      repeatPassord: "",
+      repeatPassword: "",
       terminos: false,
     },
     validate,
@@ -65,7 +71,7 @@ const Registro = () => {
                 <form onSubmit={formik.handleSubmit}>
                   <div className="form-outline mb-4">
                     <label className="form-label" for="nombre">
-                      Nombre
+                      Nombres
                     </label>
                     <input
                       type="nombre"
@@ -77,6 +83,23 @@ const Registro = () => {
                     />
                     {formik.touched.nombre && formik.errors.nombre ? (
                       <div className="labelError">{formik.errors.nombre}</div>
+                    ) : null}
+                  </div>
+
+                  <div className="form-outline mb-4">
+                    <label className="form-label" for="apellido">
+                      Apellidos
+                    </label>
+                    <input
+                      type="apellido"
+                      name="apellido"
+                      className="form-control form-control-lg"
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      value={formik.values.apellido}
+                    />
+                    {formik.touched.nombre && formik.errors.apellido ? (
+                      <div className="labelError">{formik.errors.apellido}</div>
                     ) : null}
                   </div>
 
@@ -126,12 +149,12 @@ const Registro = () => {
                       className="form-control form-control-lg"
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
-                      value={formik.values.repeatPassord}
+                      value={formik.values.repeatPassword}
                     />
-                    {formik.touched.repeatPassord &&
-                    formik.errors.repeatPassord ? (
+                    {formik.touched.repeatPassword &&
+                    formik.errors.repeatPassword ? (
                       <div className="labelError">
-                        {formik.errors.repeatPassord}
+                        {formik.errors.repeatPassword}
                       </div>
                     ) : null}
                   </div>
@@ -143,7 +166,7 @@ const Registro = () => {
                       name="terminos"
                       id="checkbox"
                       onChange={formik.handleChange}
-                      value={formik.values.repeatPassord}
+                      value={formik.values.repeatPassword}
                     />
 
                     <label className="form-check-label" for="terminos">

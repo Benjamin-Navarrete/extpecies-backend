@@ -6,6 +6,7 @@ import Login from "./pages/Login";
 import Mapa from "./pages/Mapa";
 import Prueba from "./pages/Prueba";
 import Registro from "./pages/Registro";
+import User from "./pages/User";
 
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
@@ -32,6 +33,9 @@ function App() {
         </Routes>
         <Routes>
           <Route path="/registro" element={<Registro />} />
+        </Routes>
+        <Routes>
+          <Route path="/user" element={<User />} />
         </Routes>
       </main>
       <Footer />

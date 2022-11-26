@@ -35,6 +35,11 @@ const Navbar = () => {
                   Extpecies
                 </Link>
               </li>
+              <li className="nav-item ms-auto m-2">
+                <Link aria-current="page" to="/user">
+                  Mi perfil
+                </Link>
+              </li>
               <div className="m-1 ms-auto">
                 <Link to="/login">
                   <button className="btn btn-sm btn-primary" type="button">

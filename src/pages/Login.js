@@ -92,7 +92,7 @@ const Login = () => {
                 <p className="text-center text-muted mt-5 mb-0">
                   ¿No tienes cuenta?{" "}
                   <Link to="/registro" className="fw-bold text-body">
-                    <u>Registrate</u>
+                    <u>Regístrate</u>
                   </Link>
                 </p>
               </div>
