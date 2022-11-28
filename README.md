@@ -3,6 +3,7 @@
 **Integrantes**:
 
 - Gabriel Medina
+- Benjamín Navarrete
 
 # Pasos para inicializar frontend:
 
