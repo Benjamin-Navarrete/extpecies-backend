@@ -18,8 +18,8 @@ const Prueba = () => {
                     </div>
                     <div className="col-12 col-sm-9 align-items-center">
                       <h3>{dato.pregunta}</h3>
-                      <p>{dato.enunciado}</p>
-                      <div className="form-check form-check-inline">
+                      <h5>{dato.enunciado}</h5>
+                      <div className="col-12 form-check form-check-inline">
                         <input
                           className="form-check-input"
                           type="checkbox"
@@ -28,13 +28,13 @@ const Prueba = () => {
                           name="alternativas"
                         />
                         <label
-                          className="form-check-label"
-                          for={`inlineCheckbox${contador}`}
+                          className="row form-check-label"
+                          for={`inlineCheckbox ${contador}`}
                         >
                           {dato.a}
                         </label>
                       </div>
-                      <div className="form-check form-check-inline">
+                      <div className="col-12 form-check form-check-inline">
                         <input
                           className="form-check-input"
                           type="checkbox"
@@ -49,7 +49,7 @@ const Prueba = () => {
                           {dato.b}
                         </label>
                       </div>
-                      <div className="form-check form-check-inline">
+                      <div className="col-12 form-check form-check-inline">
                         <input
                           className="form-check-input"
                           type="checkbox"
@@ -64,7 +64,7 @@ const Prueba = () => {
                           {dato.c}
                         </label>
                       </div>
-                      <div className="form-check form-check-inline">
+                      <div className="col-12 form-check form-check-inline">
                         <input
                           className="form-check-input"
                           type="checkbox"
