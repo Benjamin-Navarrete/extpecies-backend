@@ -55,6 +55,11 @@ const Registro = () => {
     validate,
     onSubmit: (values) => {
       alert("Form enviado, datos: " + JSON.stringify(values, null, 2));
+      const datos = JSON.stringify(values, null, 2);
+      fetch("http://localhost:8080/pruebapost", {
+        method: "POST",
+        body: datos,
+      });
     },
   });
   return (
@@ -139,6 +144,7 @@ const Registro = () => {
                   </div>
 
                   <div className="form-outline mb-4">
+                    <label className="form-label" for="password2" />
                     <label className="form-label" for="repeatPassord">
                       Repetir contraseña
                     </label>
@@ -149,12 +155,12 @@ const Registro = () => {
                       className="form-control form-control-lg"
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
-                      value={formik.values.repeatPassword}
+                      value={formik.values.repeatPassord}
                     />
-                    {formik.touched.repeatPassword &&
-                    formik.errors.repeatPassword ? (
+                    {formik.touched.repeatPassord &&
+                    formik.errors.repeatPassord ? (
                       <div className="labelError">
-                        {formik.errors.repeatPassword}
+                        {formik.errors.repeatPassord}
                       </div>
                     ) : null}
                   </div>
@@ -163,10 +169,10 @@ const Registro = () => {
                     <input
                       className="form-check-input me-2"
                       type="checkbox"
-                      name="terminos"
+                      name="checkbox"
                       id="checkbox"
                       onChange={formik.handleChange}
-                      value={formik.values.repeatPassword}
+                      value={formik.values.checkbox}
                     />
 
                     <label className="form-check-label" for="terminos">
