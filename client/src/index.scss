@@ -1,0 +1,30 @@
+$font-color: #11324d;
+$primary-color: #6b7aa1;
+$secondary-color: #c1cfc0;
+$terciary-color: #e7e0c9;
+$background-color: #fffcf5;
+
+body {
+  background-color: $background-color;
+}
+
+main {
+  margin: 2rem 4rem;
+}
+
+h1 {
+  margin-bottom: 1rem;
+}
+
+.card {
+  border-color: $secondary-color;
+}
+
+.texto-justificado {
+  text-align: justify;
+  text-justify: inter-word;
+}
+
+.footer {
+  color: gray;
+}

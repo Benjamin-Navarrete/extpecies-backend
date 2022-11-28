@@ -1,0 +1,34 @@
+[
+    {
+    "pregunta":"1) Primera pregunta",
+    "enunciado":"este es el enunciado de la primera pregunta",
+    "a":"a) respuesta A",
+    "b":"b) respuesta B",
+    "c":"c) respuesta C",
+    "d":"d) respuesta D"
+    },
+
+    {"pregunta":"2) Segunda pregunta",
+    "enunciado":"este es el enunciado de la segunda pregunta",
+    "a":"a) respuesta A",
+    "b":"b) respuesta B",
+    "c":"c) respuesta C",
+    "d":"d) respuesta D"
+    },
+
+    {"pregunta":"3) Tercera pregunta",
+    "enunciado":"este es el enunciado de la tercera pregunta",
+    "a":"a) respuesta A",
+    "b":"b) respuesta B",
+    "c":"c) respuesta C",
+    "d":"d) respuesta D"
+    },
+
+    {"pregunta":"4) Cuarta pregunta",
+    "enunciado":"este es el enunciado de la cuarta pregunta",
+    "a":"a) respuesta A",
+    "b":"b) respuesta B",
+    "c":"c) respuesta C",
+    "d":"d) respuesta D"
+    }
+]
