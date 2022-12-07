@@ -10,7 +10,7 @@ export const getUbicaciones = async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 };
-// TODO: finalizar seccion desde createUbicacion hacia abajo
+
 // Crear ubicaciones
 export const createUbicacion = async (req, res) => {
   const { latitud, longitud, especie_id } = req.body;

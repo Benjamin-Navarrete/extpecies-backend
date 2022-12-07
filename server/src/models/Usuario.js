@@ -9,6 +9,7 @@ export const Usuario = sequelize.define("usuarios", {
   },
   rol: {
     type: DataTypes.STRING,
+    defaultValue: "usuario",
   },
   nombres: {
     type: DataTypes.STRING,

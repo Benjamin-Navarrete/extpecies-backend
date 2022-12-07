@@ -52,12 +52,11 @@ export const createUser = async (req, res) => {
 // Actualizar usuario por id
 export const updateUser = async (req, res) => {
   const id = req.params.id;
-  const { rol, nombres, apellidos, correo, telefono, password } = req.body;
+  const { nombres, apellidos, correo, telefono, password } = req.body;
 
   try {
     const usuario = await Usuario.findByPk(id);
 
-    usuario.rol = rol;
     usuario.nombres = nombres;
     usuario.apellidos = apellidos;
     usuario.correo = correo;

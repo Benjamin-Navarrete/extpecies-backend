@@ -1,4 +1,6 @@
+import { response } from "express";
 import { Especie } from "../models/Especie";
+import { Ubicacion } from "../models/Ubicacion";
 
 // Obtener especie por id
 export const getEspecieById = async (req, res) => {
@@ -90,4 +92,14 @@ export const deleteEspecie = async (req, res) => {
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
+};
+
+export const getUbicacionesEspecies = async (req, res) => {
+  const id = req.params.id;
+  const ubicaciones = await Ubicacion.findAll({
+    where: {
+      especie_id: id,
+    },
+  });
+  res.json(ubicaciones);
 };
