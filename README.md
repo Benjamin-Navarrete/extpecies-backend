@@ -17,7 +17,8 @@
 1. Abrir nueva terminal
 2. Dirigirse a la carpeta "server" desde la raiz del proyecto con `cd .\server\`
 3. Descargar paquetes necesarios con `npm install`.
-4. Inicializar el servidor de node utilizando `node index.js`.
+4. Ejecutar comando `npm run build` para construir la aplicacion de produccion
+5. Inicializar el servidor de node utilizando `npm start`.
 
 # Requisitos:
 
