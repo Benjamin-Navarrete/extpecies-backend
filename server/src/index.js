@@ -1,17 +1,17 @@
-const express = require("express");
+import app from "./app";
+import { sequelize } from "./database/database";
 
-const app = express();
 const port = 8080;
 
-let transactionArr = [];
+async function main() {
+  try {
+    await sequelize.sync({ force: false });
+    app.listen(port, () => {
+      console.log(`Server running on port ${port} `);
+    });
+  } catch (error) {
+    console.error("Unable to connect to the database:", error);
+  }
+}
 
-// middlewares
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-//routes
-app.use(require("./routes/index"));
-
-app.listen(port, () => {
-  console.log(`Server running on port ${port} `);
-});
+main();
