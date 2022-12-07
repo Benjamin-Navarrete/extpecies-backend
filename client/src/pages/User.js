@@ -60,11 +60,19 @@ const User = () => {
     const formik = useFormik({
         initialValues: {
           nombre: "",
-          email: "",
+          apellido: "",
+		  email: "",
+		  telefono:"",
           password: "",
           newPassword: "",
           repeatPassword: "",
           actualizaciones: true,
+		  nombreComun: "",
+		  nombreCientifico: "",
+		  categoriaConservacion: "",
+		  rangoGeografico: "",
+		  latitud: "",
+		  longitud: ""
         },
         validate,
         onSubmit: (values) => {
@@ -77,10 +85,13 @@ const User = () => {
             <div className="row">
                 <ul className="nav nav-tabs" id="myTab" role="tablist">
                     <li className="nav-item" role="presentation">
-                        <button className="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Mi cuenta</button>
+                        <button className="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Mi Cuenta</button>
                     </li>
                     <li className="nav-item" role="presentation">
-                        <button className="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Mis Especies</button>
+                        <button className="nav-link" id="mis-especies-tab" data-bs-toggle="tab" data-bs-target="#mis-especies-tab-pane" type="button" role="tab" aria-controls="mis-especies-tab-pane" aria-selected="false">Mis Especies</button>
+                    </li>
+                    <li className="nav-item" role="presentation">
+                        <button className="nav-link" id="editar-especie-tab" data-bs-toggle="tab" data-bs-target="#editar-especie-tab-pane" type="button" role="tab" aria-controls="editar-especie-tab-pane" aria-selected="false">Editar Especie</button>
                     </li>
                 </ul>
                 <div className="tab-content" id="myTabContent">
@@ -90,74 +101,77 @@ const User = () => {
                         <div className="row">
                             {/* DATOS PERSONALES */}
                             <div className="col-12 col-lg-6">
-                                <h5 className="text-center mb-3">Datos Personales</h5>
-                                <div className="row">
-                                    <div className="col-12 col-md-5 mb-3">
-                                        <img src={user} alt="user" width="225px" className="circulo"/>
-                                    </div>                                   
-                                    <div className="col-12 col-md-7">
-                                        <div className="row">
-                                            <div className="col-4 text-end">
-                                                <label className="fw-semibold mb-3" for="nombre">Nombres :</label>
-                                            </div>
-                                            <div className="col-8 col-md-8">
-                                                <input id="nombre" name="nombre" type="text" className="form-control" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.nombre}/>
-                                                {formik.touched.nombre && formik.errors.nombre ? (
-                                                    <div className="labelError">{formik.errors.nombre}</div>) : null}
-                                            </div>
-                                        </div>
-                                        <div className="row">
-                                            <div className="col-4 col-lg-4 text-end">
-                                                <label className="fw-semibold mb-3" for="apellido">Apellidos :</label>
-                                            </div>
-                                            <div className="col-8 col-lg-8">
-                                                <input id="apellido" name="apellido" type="text" className="form-control" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.apellido}/>
-                                                {formik.touched.apellido && formik.errors.apellido ? (
-                                                    <div className="labelError">{formik.errors.apellido}</div>) : null}
-                                            </div>
-                                        </div>
-                                        <div className="row">
-                                            <div className="col-4 col-lg-4 text-end">
-                                                <label className="fw-semibold mb-3" for="email">Correo :</label>
-                                            </div>
-                                            <div className="col-8 col-lg-8">
-                                                <input id="email" name="email" type="email" className="form-control" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.email}/>
-                                                {formik.touched.email && formik.errors.email ? (
-                                                    <div className="labelError">{formik.errors.email}</div>) : null}
-                                            </div>
-                                        </div>
-                                        <div className="row">
-                                            <div className="col-4 col-lg-4 text-end">
-                                                <label className="fw-semibold mb-3" for="telefono">Teléfono :</label>
-                                            </div>
-                                            <div className="col-8 col-lg-8">                                          
-                                                <input id="telefono" name="telefono" type="text" className="form-control" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.telefono}/>
-                                                    {formik.touched.telefono && formik.errors.telefono ? (
-                                                    <div className="labelError">{formik.errors.telefono}</div>) : null}
-                                            </div>
-                                        </div>
-                                        <div className="row justify-content-end form-check">
-                                            <div className="col-10 col-lg-10 m-3">
-                                                <input className="form-check-input" type="checkbox" name="actualizaciones" id="checkbox"/>
-                                                <label className="form-check-label" for="flexCheckChecked">
-                                                    Deseo recibir actualizaciones de las especies en mi correo.
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>                                       
-                                    <div className="row justify-content-center mb-3">
-                                        <div className="col-10 col-lg-10">
-                                          <input className="form-control" type="file" id="formFile"m/>
-                                        </div>
-                                        
-                                    </div>
-                                </div>
-                                <div className="row justify-content-center mb-3">
-                                    <div className="col-3 col-lg-3 mb-3">
-                                        <input className="btn btn-primary" type="submit" value="Guardar Cambios"/>
-                                    </div>
-                                </div>
-                            </div>
+								<form onSubmit={formik.handleSubmit}>
+									<h5 className="text-center mb-3">Datos Personales</h5>
+									<div className="row">
+										<div className="col-12 col-md-5 mb-3">
+											<img src={user} alt="user" width="225px" className="circulo"/>
+										</div>                                   
+										<div className="col-12 col-md-7">
+											<div className="row">
+												<div className="col-4 text-end">
+													<label className="fw-semibold mb-3" for="nombre">Nombres :</label>
+												</div>
+												<div className="col-8 col-md-8">
+													<input id="nombre" name="nombre" type="text" className="form-control" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.nombre}/>
+													{formik.touched.nombre && formik.errors.nombre ? (
+														<div className="labelError">{formik.errors.nombre}</div>) : null}
+												</div>
+											</div>
+											<div className="row">
+												<div className="col-4 col-lg-4 text-end">
+													<label className="fw-semibold mb-3" for="apellido">Apellidos :</label>
+												</div>
+												<div className="col-8 col-lg-8">
+													<input id="apellido" name="apellido" type="text" className="form-control" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.apellido}/>
+													{formik.touched.apellido && formik.errors.apellido ? (
+														<div className="labelError">{formik.errors.apellido}</div>) : null}
+												</div>
+											</div>
+											<div className="row">
+												<div className="col-4 col-lg-4 text-end">
+													<label className="fw-semibold mb-3" for="email">Correo :</label>
+												</div>
+												<div className="col-8 col-lg-8">
+													<input id="email" name="email" type="email" className="form-control" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.email}/>
+													{formik.touched.email && formik.errors.email ? (
+														<div className="labelError">{formik.errors.email}</div>) : null}
+												</div>
+											</div>
+											<div className="row">
+												<div className="col-4 col-lg-4 text-end">
+													<label className="fw-semibold mb-3" for="telefono">Teléfono :</label>
+												</div>
+												<div className="col-8 col-lg-8">                                          
+													<input id="telefono" name="telefono" type="text" className="form-control" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.telefono}/>
+														{formik.touched.telefono && formik.errors.telefono ? (
+														<div className="labelError">{formik.errors.telefono}</div>) : null}
+												</div>
+											</div>
+											<div className="row justify-content-end form-check">
+												<div className="col-10 col-lg-10 m-3">
+													<input className="form-check-input" type="checkbox" name="actualizaciones" id="checkbox" value={formik.values.actualizaciones}/>
+													<label className="form-check-label" for="flexCheckChecked">
+														Deseo recibir actualizaciones de las especies en mi correo.
+													</label>
+												</div>
+											</div>
+										</div>                                       
+										<div className="row justify-content-center mb-3">
+											<div className="col-10 col-lg-10">
+											<input className="form-control" type="file" id="formFile"m/>
+											</div>
+											
+										</div>
+									</div>
+									<div className="row justify-content-center mb-3">
+										<div className="col-3 col-lg-3 mb-3">
+											<input className="btn btn-primary" type="submit" value="Guardar Cambios"/>
+										</div>
+									</div>
+								</form>
+							</div>
+														
                             {/* CAMBIAR CONTRASEÑA */}
                             <div className="col-12 col-lg-6">
                                 <h5 className="text-center mb-3">Cambiar Contraseña</h5>
@@ -194,19 +208,18 @@ const User = () => {
                                             </div>
                                         </div>
                                     </div>
-                                </form>
-                                <div className="row justify-content-center">
-                                    <div className="col-3 col-lg-3">
-                                        <input className="btn btn-primary" type="submit" value="Actualizar Contraseña"/>
-                                    </div>
-                                </div>
+									<div className="row justify-content-center">
+										<div className="col-3 col-lg-3">
+											<input className="btn btn-primary" type="submit" value="Actualizar Contraseña"/>
+										</div>
+									</div>
+								</form>
                             </div>
                             
                         </div>
                     </div>
-
-                    {/* SECCION ESPECIES*/}
-                    <div className="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabIndex="0">
+                    {/* SECCION MIS ESPECIES*/}
+                    <div className="tab-pane fade" id="mis-especies-tab-pane" role="tabpanel" aria-labelledby="mis-especies-tab" tabIndex="0">
                         <h3 className="text-center mb-5">Mis Especies Guardadas</h3> 
                         {Especies.map((dato) => {
                             return(
@@ -226,6 +239,262 @@ const User = () => {
                                 </div>
                             );
                         })} 
+                    </div>
+                    {/* SECCION EDITAR ESPECIE */}
+                    <div className="tab-pane fade" id="editar-especie-tab-pane" role="tabpanel" aria-labelledby="editar-especie-tab" tabIndex="0">
+                    {/* ACORDEON AGREGAR, MODIFICAR, ELIMINAR */}
+                        <div class="accordion" id="accordionExample">
+                            <div class="accordion-item">
+                                {/* AGREGAR ESPECIE */}
+                                <h2 className="accordion-header" id="headingOne">
+                                    <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#agregar" aria-expanded="false" aria-controls="agregar">
+                                        <strong>Agregar Especie</strong>
+                                    </button>
+                                </h2>
+                                <div id="agregar" className="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                    <div className="row accordion-body m-1">
+                                        <div className="col-12">
+                                            <div className="row mb-1">
+                                                <div className="col-3 text-end">
+                                                    <h6>Nombre Común :</h6>
+                                                </div>
+                                                <div className="col-6">
+                                                    <input class="form-control" type="text" aria-label="default input example"></input>
+                                                </div>
+                                            </div>
+                                            <div className="row mb-1">
+                                                <div className="col-3 text-end">
+                                                    <h6 className="fst-italic">Nombre Científico :</h6>
+                                                </div>
+                                                <div className="col-6">
+                                                    <input className="form-control fst-italic" type="text" aria-label="default input example"></input>
+                                                </div>
+                                            </div>
+                                            <div className="row mb-1">
+                                                <div className="col-3 text-end">
+                                                    <h6>Categoría de Conservación :</h6>
+                                                </div>
+                                                <div className="col-6">
+                                                    <select class="form-select" aria-label="Default select example">
+                                                        <option selected>Seleccionar Categoría de Conservación</option>
+                                                        <option value="DD">Datos Insuficientes</option>
+                                                        <option value="LC">Preocupación Menor</option>
+                                                        <option value="NT">Casi Amenazado</option>
+                                                        <option value="VU">Vulnerable</option>
+                                                        <option value="EN">En Peligro</option>
+                                                        <option value="CR">En Peligro Crítico</option>
+                                                        <option value="EW">Extinto en Estado Silvestre</option>
+                                                        <option value="EX">Extinto</option>
+                                                        <option value="NE">No Evaluado</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div className="row mb-1">
+                                                <div className="col-3 text-end">
+                                                    <h6>Rango Geográfico :</h6>
+                                                </div>
+                                                <div className="col-6">
+                                                    <input class="form-control" type="text" aria-label="default input example"></input>
+                                                </div>
+                                            </div>
+                                            <div className="row mb-1">
+                                                <div className="col-3 text-end">
+                                                    <h6>Latitud :</h6>
+                                                </div>
+                                                <div className="col-6">
+                                                    <input class="form-control" type="text" aria-label="default input example"></input>
+                                                </div>
+                                            </div>
+                                            <div className="row mb-1">
+                                                <div className="col-3 text-end">
+                                                    <h6>Longitud :</h6>
+                                                </div>
+                                                <div className="col-6">
+                                                    <input class="form-control" type="text" aria-label="default input example"></input>
+                                                </div>
+                                            </div>
+                                            <div className="row justify-content-center">
+                                                <div className="col-3 justify-content-center text-center">
+                                                    <button type="button" className="btn btn-success m-3">Agregar Especie</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                {/* MODIFICAR ESPECIE */}
+                                <h2 class="accordion-header" id="headingTwo">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#modificar" aria-expanded="false" aria-controls="modificar">
+                                        <strong>Modificar Especie</strong>
+                                    </button>
+                                </h2>
+                                <div id="modificar" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                                    <div className="row accordion-body m-1">
+										<div className="col-12">
+											<div className="row justify-content-center mb-1">
+												<div className="col-6">
+													<div class="input-group mb-3">
+														<input type="text" class="form-control" placeholder="Buscar Especie por nombre científico o común" aria-label="Recipient's username" aria-describedby="button-addon2"></input>
+														<button class="btn btn-outline-secondary" type="button" id="button-addon2">Buscar</button>
+													</div>
+												</div>
+												<div className="row mb-1">
+													<div className="col-3 text-end">
+														<h6>Nombre Común :</h6>
+													</div>
+													<div className="col-6">
+														<input class="form-control" type="text" aria-label="default input example"></input>
+													</div>
+												</div>
+												<div className="row mb-1">
+													<div className="col-3 text-end">
+														<h6 className="fst-italic">Nombre Científico :</h6>
+													</div>
+													<div className="col-6">
+														<input className="form-control fst-italic" type="text" aria-label="default input example"></input>
+													</div>
+												</div>
+												<div className="row mb-1">
+													<div className="col-3 text-end">
+														<h6>Categoría de Conservación :</h6>
+													</div>
+													<div className="col-6">
+														<select class="form-select" aria-label="Default select example">
+															<option selected>Seleccionar Categoría de Conservación</option>
+															<option value="DD">Datos Insuficientes</option>
+															<option value="LC">Preocupación Menor</option>
+															<option value="NT">Casi Amenazado</option>
+															<option value="VU">Vulnerable</option>
+															<option value="EN">En Peligro</option>
+															<option value="CR">En Peligro Crítico</option>
+															<option value="EW">Extinto en Estado Silvestre</option>
+															<option value="EX">Extinto</option>
+															<option value="NE">No Evaluado</option>
+														</select>
+													</div>
+												</div>
+												<div className="row mb-1">
+													<div className="col-3 text-end">
+														<h6>Rango Geográfico :</h6>
+													</div>
+													<div className="col-6">
+														<input class="form-control" type="text" aria-label="default input example"></input>
+													</div>
+												</div>
+												<div className="row mb-1">
+													<div className="col-3 text-end">
+														<h6>Latitud :</h6>
+													</div>
+													<div className="col-6">
+														<input class="form-control" type="text" aria-label="default input example"></input>
+													</div>
+												</div>
+												<div className="row mb-1">
+													<div className="col-3 text-end">
+														<h6>Longitud :</h6>
+													</div>
+													<div className="col-6">
+														<input class="form-control" type="text" aria-label="default input example"></input>
+													</div>
+												</div>
+												<div className="row justify-content-center">
+													<div className="col-3 text-center">
+														<button type="button" className="btn btn-primary m-3">Modificar Especie</button>
+													</div>
+												</div>
+											</div>
+										</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                {/* ELIMINAR ESPECIE */}
+                                <h2 class="accordion-header" id="headingThree">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#eliminar" aria-expanded="false" aria-controls="eliminar">
+                                        <strong>Eliminar Especie</strong>
+                                    </button>
+                                </h2>
+                                <div id="eliminar" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                                    <div class="accordion-body m-1">
+									<div className="col-12">
+											<div className="row justify-content-center mb-1">
+												<div className="col-6">
+													<div class="input-group mb-3">
+														<input type="text" class="form-control" placeholder="Buscar Especie por nombre científico o común" aria-label="Recipient's username" aria-describedby="button-addon2"></input>
+														<button class="btn btn-outline-secondary" type="button" id="button-addon2">Buscar</button>
+													</div>
+												</div>
+												<div className="row mb-1">
+													<div className="col-3 text-end">
+														<h6>Nombre Común :</h6>
+													</div>
+													<div className="col-6">
+														<input class="form-control" type="text" aria-label="default input example"></input>
+													</div>
+												</div>
+												<div className="row mb-1">
+													<div className="col-3 text-end">
+														<h6 className="fst-italic">Nombre Científico :</h6>
+													</div>
+													<div className="col-6">
+														<input className="form-control fst-italic" type="text" aria-label="default input example"></input>
+													</div>
+												</div>
+												<div className="row mb-1">
+													<div className="col-3 text-end">
+														<h6>Categoría de Conservación :</h6>
+													</div>
+													<div className="col-6">
+														<select class="form-select" aria-label="Default select example">
+															<option selected>Seleccionar Categoría de Conservación</option>
+															<option value="DD">Datos Insuficientes</option>
+															<option value="LC">Preocupación Menor</option>
+															<option value="NT">Casi Amenazado</option>
+															<option value="VU">Vulnerable</option>
+															<option value="EN">En Peligro</option>
+															<option value="CR">En Peligro Crítico</option>
+															<option value="EW">Extinto en Estado Silvestre</option>
+															<option value="EX">Extinto</option>
+															<option value="NE">No Evaluado</option>
+														</select>
+													</div>
+												</div>
+												<div className="row mb-1">
+													<div className="col-3 text-end">
+														<h6>Rango Geográfico :</h6>
+													</div>
+													<div className="col-6">
+														<input class="form-control" type="text" aria-label="default input example"></input>
+													</div>
+												</div>
+												<div className="row mb-1">
+													<div className="col-3 text-end">
+														<h6>Latitud :</h6>
+													</div>
+													<div className="col-6">
+														<input class="form-control" type="text" aria-label="default input example"></input>
+													</div>
+												</div>
+												<div className="row mb-1">
+													<div className="col-3 text-end">
+														<h6>Longitud :</h6>
+													</div>
+													<div className="col-6">
+														<input class="form-control" type="text" aria-label="default input example"></input>
+													</div>
+												</div>
+												<div className="row justify-content-center">
+													<div className="col-3 text-center">
+														<button type="button" className="btn btn-danger m-3">Eliminar Especie</button>
+													</div>
+												</div>
+											</div>
+										</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
