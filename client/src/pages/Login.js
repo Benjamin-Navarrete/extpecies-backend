@@ -1,15 +1,16 @@
 import { Link } from "react-router-dom";
 import { useFormik } from "formik";
+import React, { useState } from "react";
 
 import "./Login.scss";
 
 const validate = (values) => {
   const errors = {};
 
-  if (!values.email) {
-    errors.email = "Campo requerido";
-  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-    errors.email = "Dirección de correo inválida";
+  if (!values.correo) {
+    errors.correo = "Campo requerido";
+  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.correo)) {
+    errors.correo = "Dirección de correo inválida";
   }
 
   if (!values.password) {
@@ -24,12 +25,30 @@ const validate = (values) => {
 const Login = () => {
   const formik = useFormik({
     initialValues: {
-      email: "",
+      correo: "",
       password: "",
     },
     validate,
-    onSubmit: (values) => {
-      alert("Form enviado, datos: " + JSON.stringify(values, null, 2));
+    onSubmit: async (values) => {
+      console.log(values);
+      const rawResponse = await fetch("http://localhost:8080/api/auth/signin", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      });
+      const content = await rawResponse.json();
+      console.log(content);
+
+      if (rawResponse.status === 200) {
+        alert("Sesión iniciada correctamente");
+        window.location.href = "/user";
+      }
+      if (rawResponse.status === 401) {
+        alert("Contraseña invalida");
+      }
     },
   });
   return (
@@ -45,20 +64,20 @@ const Login = () => {
 
                 <form onSubmit={formik.handleSubmit}>
                   <div className="form-outline mb-4">
-                    <label className="form-label" for="email">
+                    <label className="form-label" for="correo">
                       Correo
                     </label>
                     <input
-                      id="email"
-                      name="email"
-                      type="email"
+                      id="correo"
+                      name="correo"
+                      type="correo"
                       className="form-control form-control-lg"
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
-                      value={formik.values.email}
+                      value={formik.values.correo}
                     />
-                    {formik.touched.email && formik.errors.email ? (
-                      <div className="labelError">{formik.errors.email}</div>
+                    {formik.touched.correo && formik.errors.correo ? (
+                      <div className="labelError">{formik.errors.correo}</div>
                     ) : null}
                   </div>
 

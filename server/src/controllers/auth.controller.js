@@ -5,12 +5,11 @@ import config from "../config";
 
 // Registrarse
 export const signUp = async (req, res) => {
-  const { rol, nombres, apellidos, correo, telefono, password } = req.body;
+  const { nombres, apellidos, correo, telefono, password } = req.body;
   try {
     const usuario = await Usuario.findOne({ where: { correo: correo } });
     if (usuario === null) {
       const newUsuario = await Usuario.create({
-        rol,
         nombres,
         apellidos,
         correo,
@@ -30,7 +29,7 @@ export const signUp = async (req, res) => {
 };
 
 export const signIn = async (req, res) => {
-  const { rol, nombres, apellidos, correo, telefono, password } = req.body;
+  const { correo, password } = req.body;
   const usuarioEncontrado = await Usuario.findOne({
     where: { correo: correo },
   });

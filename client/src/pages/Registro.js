@@ -4,22 +4,22 @@ import { useFormik } from "formik";
 const validate = (values) => {
   const errors = {};
 
-  if (!values.nombre) {
-    errors.nombre = "Campo requerido";
-  } else if (!/^[A-ZñÑáéíóúÁÉÍÓÚ]{1,55}$/i.test(values.nombre)) {
-    errors.nombre = "Nombre contiene caracteres inválidos";
+  if (!values.nombres) {
+    errors.nombres = "Campo requerido";
+  } else if (!/^[A-ZñÑáéíóúÁÉÍÓÚ]{1,55}$/i.test(values.nombres)) {
+    errors.nombres = "Nombre contiene caracteres inválidos";
   }
 
-  if (!values.apellido) {
-    errors.apellido = "Campo requerido";
-  } else if (!/^[A-ZñÑáéíóúÁÉÍÓÚ]{1,55}$/i.test(values.apellido)) {
-    errors.apellido = "Apellidos contiene caracteres inválidos";
+  if (!values.apellidos) {
+    errors.apellidos = "Campo requerido";
+  } else if (!/^[A-ZñÑáéíóúÁÉÍÓÚ]{1,55}$/i.test(values.apellidos)) {
+    errors.apellidos = "Apellidos contiene caracteres inválidos";
   }
 
-  if (!values.email) {
-    errors.email = "Campo requerido";
-  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-    errors.email = "Dirección de correo inválida";
+  if (!values.correo) {
+    errors.correo = "Campo requerido";
+  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.correo)) {
+    errors.correo = "Dirección de correo inválida";
   }
 
   if (!values.password) {
@@ -46,20 +46,33 @@ const validate = (values) => {
 const Registro = () => {
   const formik = useFormik({
     initialValues: {
-      nombre: "",
-      email: "",
+      nombres: "",
+      correo: "",
       password: "",
       repeatPassword: "",
       terminos: false,
     },
     validate,
-    onSubmit: (values) => {
-      alert("Form enviado, datos: " + JSON.stringify(values, null, 2));
-      const datos = JSON.stringify(values, null, 2);
-      fetch("http://localhost:8080/pruebapost", {
+    onSubmit: async (values) => {
+      console.log(values);
+      const rawResponse = await fetch("http://localhost:8080/api/auth/signup", {
         method: "POST",
-        body: datos,
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
       });
+      const content = await rawResponse.json();
+
+      if (content === "Usuario ya existe") {
+        alert("Ya existe una cuenta registrada con ese correo, inicie sesion");
+        window.location.href = "/login";
+      }
+      if (content === "Usuario creado exitosamente") {
+        alert("Usuario creado exitosamente");
+        window.location.href = "/login";
+      }
     },
   });
   return (
@@ -75,53 +88,55 @@ const Registro = () => {
 
                 <form onSubmit={formik.handleSubmit}>
                   <div className="form-outline mb-4">
-                    <label className="form-label" for="nombre">
+                    <label className="form-label" for="nombres">
                       Nombres
                     </label>
                     <input
-                      type="nombre"
-                      name="nombre"
+                      type="nombres"
+                      name="nombres"
                       className="form-control form-control-lg"
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
-                      value={formik.values.nombre}
+                      value={formik.values.nombres}
                     />
-                    {formik.touched.nombre && formik.errors.nombre ? (
-                      <div className="labelError">{formik.errors.nombre}</div>
+                    {formik.touched.nombres && formik.errors.nombres ? (
+                      <div className="labelError">{formik.errors.nombres}</div>
                     ) : null}
                   </div>
 
                   <div className="form-outline mb-4">
-                    <label className="form-label" for="apellido">
+                    <label className="form-label" for="apellidos">
                       Apellidos
                     </label>
                     <input
-                      type="apellido"
-                      name="apellido"
+                      type="apellidos"
+                      name="apellidos"
                       className="form-control form-control-lg"
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
-                      value={formik.values.apellido}
+                      value={formik.values.apellidos}
                     />
-                    {formik.touched.nombre && formik.errors.apellido ? (
-                      <div className="labelError">{formik.errors.apellido}</div>
+                    {formik.touched.nombres && formik.errors.apellidos ? (
+                      <div className="labelError">
+                        {formik.errors.apellidos}
+                      </div>
                     ) : null}
                   </div>
 
                   <div className="form-outline mb-4">
-                    <label className="form-label" for="email">
+                    <label className="form-label" for="correo">
                       Correo
                     </label>
                     <input
-                      type="email"
-                      name="email"
+                      type="correo"
+                      name="correo"
                       className="form-control form-control-lg"
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
-                      value={formik.values.email}
+                      value={formik.values.correo}
                     />
-                    {formik.touched.email && formik.errors.email ? (
-                      <div className="labelError">{formik.errors.email}</div>
+                    {formik.touched.correo && formik.errors.correo ? (
+                      <div className="labelError">{formik.errors.correo}</div>
                     ) : null}
                   </div>
 
