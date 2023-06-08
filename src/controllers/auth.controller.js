@@ -1,9 +1,11 @@
-import { Usuario } from "../models/Usuario";
-import bycrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
-import config from "../config";
+// Archivo src/controllers/auth.controller.js
+import { Usuario } from '../models/Usuario';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
 
-// Registrarse
+dotenv.config();
+
 export const signUp = async (req, res) => {
   const { nombres, apellidos, correo, telefono, password } = req.body;
   try {
@@ -19,9 +21,9 @@ export const signUp = async (req, res) => {
 
       console.log(newUsuario);
 
-      res.status(201).json("Usuario creado exitosamente");
+      res.status(201).json('Usuario creado exitosamente');
     } else {
-      res.json("Usuario ya existe");
+      res.json('Usuario ya existe');
     }
   } catch (error) {
     return res.status(500).json({ message: error.message });
@@ -35,19 +37,19 @@ export const signIn = async (req, res) => {
   });
 
   if (!usuarioEncontrado) {
-    return res.status(400).json({ message: "Usuario no encontrado." });
+    return res.status(400).json({ message: 'Usuario no encontrado.' });
   } else {
     const matchPassword = await comparePassword(
       password,
-      usuarioEncontrado.password
+      usuarioEncontrado.password,
     );
 
     if (!matchPassword)
       return res
         .status(401)
-        .json({ token: null, message: "Contraseña invalida" });
+        .json({ token: null, message: 'Contraseña inválida' });
 
-    const token = jwt.sign({ id: usuarioEncontrado.id }, config.SECRET, {
+    const token = jwt.sign({ id: usuarioEncontrado.id }, process.env.SECRET, {
       expiresIn: 300,
     });
 
@@ -56,10 +58,10 @@ export const signIn = async (req, res) => {
 };
 
 const encryptPassword = async (password) => {
-  const salt = await bycrypt.genSalt(10);
-  return await bycrypt.hash(password, salt);
+  const salt = await bcrypt.genSalt(10);
+  return await bcrypt.hash(password, salt);
 };
 
 const comparePassword = async (password, receivedPassword) => {
-  return await bycrypt.compare(password, receivedPassword);
+  return await bcrypt.compare(password, receivedPassword);
 };

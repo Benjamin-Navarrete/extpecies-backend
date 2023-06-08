@@ -1,33 +1,86 @@
-import { DataTypes } from "sequelize";
-import { sequelize } from "../database/database";
-import { Ubicacion } from "../models/Ubicacion";
+// Archivo src\models\Especie.js
+import { DataTypes } from 'sequelize';
+import { sequelize } from '../database/database';
 
-export const Especie = sequelize.define("especies", {
-  id: {
-    type: DataTypes.INTEGER,
-    primaryKey: true,
-    autoIncrement: true,
+export const Especie = sequelize.define('especies', {
+  nombreComun: {
+    type: DataTypes.TEXT,
   },
-  nombre_comun: {
-    type: DataTypes.STRING,
+  nombreCientifico: {
+    type: DataTypes.TEXT,
   },
-  nombre_cientifico: {
-    type: DataTypes.STRING,
+  imagen: {
+    type: DataTypes.TEXT,
   },
-  categoria_conservacion: {
-    type: DataTypes.STRING,
+  reino: {
+    type: DataTypes.TEXT,
   },
-  rango_geografico: {
-    type: DataTypes.STRING,
+  filo: {
+    type: DataTypes.TEXT,
   },
-});
-
-Especie.hasMany(Ubicacion, {
-  foreignKey: "especie_id",
-  sourceKey: "id",
-});
-
-Ubicacion.belongsTo(Especie, {
-  foreignKey: "especie_id",
-  targetId: "id",
+  clase: {
+    type: DataTypes.TEXT,
+  },
+  orden: {
+    type: DataTypes.TEXT,
+  },
+  familia: {
+    type: DataTypes.TEXT,
+  },
+  genero: {
+    type: DataTypes.TEXT,
+  },
+  estadoConservacion: {
+    type: DataTypes.TEXT,
+  },
+  sitio: {
+    type: DataTypes.TEXT,
+  },
+  numeroLocaciones: {
+    type: DataTypes.TEXT,
+  },
+  limiteElevacionSuperior: {
+    type: DataTypes.TEXT,
+    allowNull: true, // Puede ser nulo
+  },
+  limiteElevacionInferior: {
+    type: DataTypes.TEXT,
+    allowNull: true, // Puede ser nulo
+  },
+  descripcionGeografica: {
+    type: DataTypes.TEXT,
+  },
+  tendenciaPoblacion: {
+    type: DataTypes.TEXT,
+  },
+  detallesPoblacion: {
+    type: DataTypes.TEXT,
+  },
+  sistemaHabitat: {
+    type: DataTypes.TEXT,
+  },
+  tiposHabitat: {
+    type: DataTypes.TEXT,
+    allowNull: true, // Puede ser nulo
+  },
+  detallesHabitat: {
+    type: DataTypes.TEXT,
+  },
+  detallesAmenazas: {
+    type: DataTypes.TEXT,
+  },
+  accionesConservacion: {
+    type: DataTypes.TEXT,
+  },
+  bibliografia: {
+    type: DataTypes.TEXT,
+  },
+  latitud: {
+    type: DataTypes.FLOAT,
+    allowNull: true, // Puede ser nulo
+  },
+  longitud: {
+    type: DataTypes.FLOAT,
+    allowNull: true, // Puede ser nulo
+  },
 });

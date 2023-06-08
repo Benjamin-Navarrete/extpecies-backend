@@ -1,54 +1,56 @@
-import jwt from "jsonwebtoken";
-import config from "../config";
-import { Usuario } from "../models/Usuario";
+import jwt from 'jsonwebtoken';
+import { Usuario } from '../models/Usuario';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 export const verifyToken = async (req, res, next) => {
-  const token = req.headers["x-access-token"];
+  const token = req.headers['x-access-token'];
 
-  if (!token) return res.status(403).json({ message: "No token provided" });
+  if (!token) return res.status(403).json({ message: 'No token provided' });
 
   try {
-    const decoded = jwt.verify(token, config.SECRET);
+    const decoded = jwt.verify(token, process.env.SECRET);
     req.userId = decoded.id;
     const user = await Usuario.findByPk(req.userId);
-    if (!user) return res.status(404).json({ message: "User not found" });
+    if (!user) return res.status(404).json({ message: 'User not found' });
     console.log(user);
     next();
   } catch (error) {
-    return res.status(401).json({ message: "Unauthorized" });
+    return res.status(401).json({ message: 'Unauthorized' });
   }
 };
 
 export const isUser = async (req, res, next) => {
   const user = await Usuario.findByPk(req.userId);
   if (
-    user.rol === "usuario" ||
-    user.rol === "editor" ||
-    user.rol === "administrador"
+    user.rol === 'usuario' ||
+    user.rol === 'editor' ||
+    user.rol === 'administrador'
   ) {
     next();
     return;
   } else {
-    return res.status(403).json({ message: "Unauthorized" });
+    return res.status(403).json({ message: 'Unauthorized' });
   }
 };
 
 export const isEditor = async (req, res, next) => {
   const user = await Usuario.findByPk(req.userId);
-  if (user.rol === "editor" || user.rol === "administrador") {
+  if (user.rol === 'editor' || user.rol === 'administrador') {
     next();
     return;
   } else {
-    return res.status(403).json({ message: "Unauthorized" });
+    return res.status(403).json({ message: 'Unauthorized' });
   }
 };
 
 export const isAdmin = async (req, res, next) => {
   const user = await Usuario.findByPk(req.userId);
-  if (user.rol === "administrador") {
+  if (user.rol === 'administrador') {
     next();
     return;
   } else {
-    return res.status(403).json({ message: "Unauthorized" });
+    return res.status(403).json({ message: 'Unauthorized' });
   }
 };

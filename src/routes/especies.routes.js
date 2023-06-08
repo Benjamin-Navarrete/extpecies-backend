@@ -1,44 +1,38 @@
-import { Router } from "express";
+import { Router } from 'express';
 const router = Router();
 
-import * as especiesController from "../controllers/especies.controller";
-import { authJwt } from "../middlewares";
+import * as especiesController from '../controllers/especies.controller';
+import { authJwt } from '../middlewares';
 
 // CRUD especies
 router.get(
-  "/",
+  '/',
   [authJwt.verifyToken, authJwt.isEditor],
-  especiesController.getEspecies
+  especiesController.getEspecies,
 );
 
 router.post(
-  "/",
+  '/',
   [authJwt.verifyToken, authJwt.isEditor],
-  especiesController.createEspecie
+  especiesController.createEspecie,
 );
 
 router.put(
-  "/:id",
+  '/:id',
   [authJwt.verifyToken, authJwt.isEditor],
-  especiesController.updateEspecie
+  especiesController.updateEspecie,
 );
 
 router.delete(
-  "/:id",
+  '/:id',
   [authJwt.verifyToken, authJwt.isEditor],
-  especiesController.deleteEspecie
+  especiesController.deleteEspecie,
 );
 
 router.get(
-  "/:id",
+  '/:id',
   [authJwt.verifyToken, authJwt.isEditor],
-  especiesController.getEspecieById
-);
-
-router.get(
-  "/:id/ubicaciones",
-  [authJwt.verifyToken, authJwt.isEditor],
-  especiesController.getUbicacionesEspecies
+  especiesController.getEspecieById,
 );
 
 export default router;
