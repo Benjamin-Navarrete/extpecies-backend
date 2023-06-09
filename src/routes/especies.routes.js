@@ -1,38 +1,18 @@
+// Archivo src/routes/especieRoutes.js
 import { Router } from 'express';
+import { especieController as controller } from '../controllers/especies.controller';
+
 const router = Router();
 
-import * as especiesController from '../controllers/especies.controller';
-import { authJwt } from '../middlewares';
-
 // CRUD especies
-router.get(
-  '/',
-  [authJwt.verifyToken, authJwt.isEditor],
-  especiesController.getEspecies,
-);
+router.get('/', controller.getAll);
 
-router.post(
-  '/',
-  [authJwt.verifyToken, authJwt.isEditor],
-  especiesController.createEspecie,
-);
+router.post('/', controller.create);
 
-router.put(
-  '/:id',
-  [authJwt.verifyToken, authJwt.isEditor],
-  especiesController.updateEspecie,
-);
+router.put('/:id', controller.update);
 
-router.delete(
-  '/:id',
-  [authJwt.verifyToken, authJwt.isEditor],
-  especiesController.deleteEspecie,
-);
+router.delete('/:id', controller.delete);
 
-router.get(
-  '/:id',
-  [authJwt.verifyToken, authJwt.isEditor],
-  especiesController.getEspecieById,
-);
+router.get('/:id', controller.getById);
 
 export default router;

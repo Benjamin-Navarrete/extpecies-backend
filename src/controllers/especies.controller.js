@@ -1,94 +1,70 @@
-import { response } from 'express';
+// Archivo src\controllers\especies.controller.js
 import { Especie } from '../models/Especie';
 
-// Obtener especie por id
-export const getEspecieById = async (req, res) => {
-  try {
-    const id = req.params.id;
-    const especie = await Especie.findOne({
-      where: {
-        id: id,
-      },
-    });
+export const especieController = {
+  // Obtiene todas las especies
+  getAll: async (req, res) => {
+    try {
+      const especies = await Especie.findAll();
+      res.status(200).json(especies);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  },
 
-    if (!especie) return res.status(404).json({ message: 'Especie not found' });
+  // Obtiene una especie por id
+  getById: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const especie = await Especie.findByPk(id);
+      if (especie) {
+        res.status(200).json(especie);
+      } else {
+        res.status(404).json({ message: `Especie con id ${id} no encontrada` });
+      }
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  },
 
-    res.json(especie);
-  } catch (error) {
-    return res.status(500).json({ message: error.message });
-  }
-};
+  // Crea una nueva especie
+  create: async (req, res) => {
+    try {
+      const especie = await Especie.create(req.body);
+      res.status(201).json(especie);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  },
 
-// Obtener especies
-export const getEspecies = async (req, res) => {
-  try {
-    const especies = await Especie.findAll();
-    console.log(especies);
-    res.status(200).json(especies);
-  } catch (error) {
-    return res.status(500).json({ message: error.message });
-  }
-};
+  // Actualiza una especie por id
+  update: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const [updated] = await Especie.update(req.body, { where: { id: id } });
+      if (updated) {
+        const updatedEspecie = await Especie.findByPk(id);
+        res.status(200).json(updatedEspecie);
+      } else {
+        res.status(404).json({ message: `Especie con id ${id} no encontrada` });
+      }
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  },
 
-// Crear especie
-export const createEspecie = async (req, res) => {
-  const {
-    nombreComun,
-    nombreCientifico,
-    categoriaConservacion,
-    rangoGeografico,
-  } = req.body;
-
-  try {
-    const newEspecie = await Especie.create({
-      nombre_comun: nombreComun,
-      nombre_cientifico: nombreCientifico,
-      categoria_conservacion: categoriaConservacion,
-      rango_geografico: rangoGeografico,
-    });
-    console.log(newEspecie);
-    res.status(201).json({ newEspecie });
-  } catch (error) {
-    return res.status(500).json({ message: error.message });
-  }
-};
-
-// Actualizar especie por id
-export const updateEspecie = async (req, res) => {
-  const id = req.params.id;
-  const {
-    nombreComun,
-    nombreCientifico,
-    categoriaConservacion,
-    rangoGeografico,
-  } = req.body;
-
-  try {
-    const especie = await Especie.findByPk(id);
-
-    especie.nombre_comun = nombreComun;
-    especie.nombre_cientifico = nombreCientifico;
-    especie.categoria_conservacion = categoriaConservacion;
-    especie.rango_geografico = rangoGeografico;
-
-    await especie.save();
-    res.json(especie);
-  } catch (error) {
-    return res.status(500).json({ message: error.message });
-  }
-};
-
-// Eliminar especie por id
-export const deleteEspecie = async (req, res) => {
-  const { id } = req.params;
-  try {
-    await Especie.destroy({
-      where: {
-        id,
-      },
-    });
-    res.json(`Especie ${id} eliminada correctamemte`);
-  } catch (error) {
-    return res.status(500).json({ message: error.message });
-  }
+  // Elimina una especie por id
+  delete: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const deleted = await Especie.destroy({ where: { id: id } });
+      if (deleted) {
+        res.status(204).json({ message: `Especie con id ${id} eliminada` });
+      } else {
+        res.status(404).json({ message: `Especie con id ${id} no encontrada` });
+      }
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  },
 };
