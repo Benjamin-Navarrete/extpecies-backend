@@ -1,7 +1,7 @@
-import { DataTypes } from "sequelize";
-import { sequelize } from "../database/database";
+import { DataTypes } from 'sequelize';
+import { sequelize } from '../database/database';
 
-export const Usuario = sequelize.define("usuarios", {
+export const Usuario = sequelize.define('usuarios', {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -9,7 +9,7 @@ export const Usuario = sequelize.define("usuarios", {
   },
   rol: {
     type: DataTypes.STRING,
-    defaultValue: "usuario",
+    defaultValue: 'usuario',
   },
   nombres: {
     type: DataTypes.STRING,
@@ -25,5 +25,11 @@ export const Usuario = sequelize.define("usuarios", {
   },
   password: {
     type: DataTypes.STRING,
+  },
+  pais: {
+    type: DataTypes.STRING,
+  },
+  boletinInformativo: {
+    type: DataTypes.BOOLEAN,
   },
 });

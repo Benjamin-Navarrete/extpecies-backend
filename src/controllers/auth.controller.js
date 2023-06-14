@@ -47,29 +47,29 @@ export const signUp = async (req, res) => {
 };
 
 export const signIn = async (req, res) => {
-  const { correo, password } = req.body;
-  const usuarioEncontrado = await Usuario.findOne({
-    where: { correo: correo },
-  });
-
-  if (!usuarioEncontrado) {
-    return res.status(400).json({ message: 'Usuario no encontrado.' });
-  } else {
-    const matchPassword = await comparePassword(
-      password,
-      usuarioEncontrado.password,
-    );
-
-    if (!matchPassword)
-      return res
-        .status(401)
-        .json({ token: null, message: 'Contraseña inválida' });
-
-    const token = jwt.sign({ id: usuarioEncontrado.id }, process.env.SECRET, {
+  const { correoElectronico, password } = req.body;
+  try {
+    // Buscar el usuario por el correo electrónico
+    const usuario = await Usuario.findOne({
+      where: { correo: correoElectronico },
+    });
+    if (!usuario) {
+      return res.status(404).json({ message: 'Usuario no encontrado' });
+    }
+    // Comparar la contraseña recibida con la contraseña encriptada
+    const passwordValido = await comparePassword(password, usuario.password);
+    if (!passwordValido) {
+      return res.status(401).json({ message: 'Contraseña incorrecta' });
+    }
+    // Generar el token de autenticación
+    const token = jwt.sign({ id: usuario.id }, process.env.SECRET, {
       expiresIn: 300,
     });
-
-    res.json({ token });
+    // Enviar el token como respuesta
+    res.status(200).json({ token });
+  } catch (error) {
+    // Manejar los posibles errores
+    res.status(500).json({ message: error.message });
   }
 };
 
