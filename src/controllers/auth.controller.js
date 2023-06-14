@@ -1,32 +1,48 @@
 // Archivo src/controllers/auth.controller.js
 import { Usuario } from '../models/Usuario';
-import bcrypt from 'bcryptjs';
+import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 
 dotenv.config();
 
+// Controlador para registrar usuario
 export const signUp = async (req, res) => {
-  const { nombres, apellidos, correo, telefono, password } = req.body;
+  const {
+    nombreCompleto,
+    correoElectronico,
+    password,
+    pais,
+    boletinInformativo,
+  } = req.body;
   try {
-    const usuario = await Usuario.findOne({ where: { correo: correo } });
-    if (usuario === null) {
-      const newUsuario = await Usuario.create({
-        nombres,
-        apellidos,
-        correo,
-        telefono,
-        password: await encryptPassword(password),
-      });
-
-      console.log(newUsuario);
-
-      res.status(201).json('Usuario creado exitosamente');
-    } else {
-      res.json('Usuario ya existe');
+    // Verificar si el correo ya existe
+    const usuarioExistente = await Usuario.findOne({
+      where: { correo: correoElectronico },
+    });
+    if (usuarioExistente) {
+      return res.status(400).json({ message: 'El correo ya está registrado.' });
     }
+    // Encriptar la contraseña
+    const passwordEncriptado = await encryptPassword(password);
+    // Crear el usuario en la base de datos
+    const nuevoUsuario = await Usuario.create({
+      nombres: nombreCompleto.split(' ')[0],
+      apellidos: nombreCompleto.split(' ').slice(1).join(' '),
+      correo: correoElectronico,
+      password: passwordEncriptado,
+      pais: pais,
+      boletinInformativo: boletinInformativo,
+    });
+    // Generar el token de autenticación
+    const token = jwt.sign({ id: nuevoUsuario.id }, process.env.SECRET, {
+      expiresIn: 300,
+    });
+    // Enviar el token como respuesta
+    res.status(201).json({ token });
   } catch (error) {
-    return res.status(500).json({ message: error.message });
+    // Manejar los posibles errores
+    res.status(500).json({ message: error.message });
   }
 };
 
