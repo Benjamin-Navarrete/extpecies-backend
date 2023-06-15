@@ -1,86 +1,100 @@
-import { Usuario } from "../models/Usuario";
+// Archivo src\controllers\usuarios.controller.js
+import { Usuario } from '../models/Usuario';
 
-// Obtener usuario por id
-export const getUserById = async (req, res) => {
-  try {
-    const id = req.params.id;
-    const usuario = await Usuario.findOne({
-      where: {
-        id: id,
-      },
-    });
-
-    if (!usuario) return res.status(404).json({ message: "Usuario not found" });
-
-    res.json(usuario);
-  } catch (error) {
-    return res.status(500).json({ message: error.message });
-  }
-};
-
-// Obtener usuarios
-export const getUsers = async (req, res) => {
+export const obtenerUsuario = async (req, res) => {
   try {
     const usuarios = await Usuario.findAll();
-    console.log(usuarios);
     res.status(200).json(usuarios);
   } catch (error) {
-    return res.status(500).json({ message: error.message });
+    res
+      .status(500)
+      .json({ error: 'Ocurrió un error al obtener los usuarios.' });
   }
 };
 
-// Crear usuarios
-export const createUser = async (req, res) => {
-  const { rol, nombres, apellidos, correo, telefono, password } = req.body;
-
+export const crearUsuario = async (req, res) => {
   try {
-    const newUsuario = await Usuario.create({
-      rol,
+    const {
       nombres,
       apellidos,
       correo,
       telefono,
       password,
+      pais,
+      boletinInformativo,
+    } = req.body;
+
+    // Aquí puedes realizar la validación de los datos recibidos antes de crear el usuario
+
+    const usuario = await Usuario.create({
+      nombres,
+      apellidos,
+      correo,
+      telefono,
+      password,
+      pais,
+      boletinInformativo,
     });
-    console.log(newUsuario);
-    res.status(201).json({ newUsuario });
+
+    res.status(201).json(usuario);
   } catch (error) {
-    return res.status(500).json({ message: error.message });
+    res.status(500).json({ error: 'Ocurrió un error al crear el usuario.' });
   }
 };
 
-// Actualizar usuario por id
-export const updateUser = async (req, res) => {
-  const id = req.params.id;
-  const { nombres, apellidos, correo, telefono, password } = req.body;
-
+export const actualizarUsuario = async (req, res) => {
   try {
+    const { id } = req.params;
+    const {
+      nombres,
+      apellidos,
+      correo,
+      telefono,
+      password,
+      pais,
+      boletinInformativo,
+    } = req.body;
+
+    // Aquí puedes realizar la validación de los datos recibidos antes de actualizar el usuario
+
     const usuario = await Usuario.findByPk(id);
 
-    usuario.nombres = nombres;
-    usuario.apellidos = apellidos;
-    usuario.correo = correo;
-    usuario.telefono = telefono;
-    usuario.password = password;
+    if (!usuario) {
+      return res.status(404).json({ error: 'Usuario no encontrado.' });
+    }
 
-    await usuario.save();
-    res.json(usuario);
+    await usuario.update({
+      nombres,
+      apellidos,
+      correo,
+      telefono,
+      password,
+      pais,
+      boletinInformativo,
+    });
+
+    res.status(200).json(usuario);
   } catch (error) {
-    return res.status(500).json({ message: error.message });
+    res
+      .status(500)
+      .json({ error: 'Ocurrió un error al actualizar el usuario.' });
   }
 };
 
-// Eliminar usuario por id
-export const deleteUser = async (req, res) => {
-  const { id } = req.params;
+export const eliminarUsuario = async (req, res) => {
   try {
-    await Usuario.destroy({
-      where: {
-        id,
-      },
-    });
-    res.json(`Usuario ${id} eliminado correctamemte`);
+    const { id } = req.params;
+
+    const usuario = await Usuario.findByPk(id);
+
+    if (!usuario) {
+      return res.status(404).json({ error: 'Usuario no encontrado.' });
+    }
+
+    await usuario.destroy();
+
+    res.status(200).json({ message: 'Usuario eliminado correctamente.' });
   } catch (error) {
-    return res.status(500).json({ message: error.message });
+    res.status(500).json({ error: 'Ocurrió un error al eliminar el usuario.' });
   }
 };

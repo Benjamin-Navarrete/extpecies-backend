@@ -1,39 +1,18 @@
-import { Router } from "express";
+// Archivo src\routes\usuarios.routes.js
+import { Router } from 'express';
 const router = Router();
 
-import * as usuariosController from "../controllers/usuarios.controller";
-import { authJwt } from "../middlewares";
+import * as usuariosController from '../controllers/usuarios.controller';
+// import { authJwt } from '../middlewares';
 
 // CRUD usuarios
 
-router.get(
-  "/",
-  [authJwt.verifyToken, authJwt.isAdmin],
-  usuariosController.getUsers
-);
+router.get('/', usuariosController.obtenerUsuario);
 
-router.post(
-  "/",
-  [authJwt.verifyToken, authJwt.isAdmin],
-  usuariosController.createUser
-);
+router.post('/', usuariosController.crearUsuario);
 
-router.put(
-  "/:id",
-  [authJwt.verifyToken, authJwt.isUser],
-  usuariosController.updateUser
-);
+router.put('/:id', usuariosController.actualizarUsuario);
 
-router.delete(
-  "/:id",
-  [authJwt.verifyToken, authJwt.isAdmin],
-  usuariosController.deleteUser
-);
-
-router.get(
-  "/:id",
-  [authJwt.verifyToken, authJwt.isAdmin],
-  usuariosController.getUserById
-);
+router.delete('/:id', usuariosController.eliminarUsuario);
 
 export default router;
