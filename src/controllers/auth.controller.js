@@ -1,5 +1,8 @@
 // Archivo src/controllers/auth.controller.js
 import { Usuario } from '../models/Usuario';
+import { Rol } from '../models/Rol'; // Agregado
+import { Permiso } from '../models/Permiso'; // Agregado
+import '../models/associations'; // Agregado
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
@@ -14,6 +17,7 @@ export const signUp = async (req, res) => {
     password,
     pais,
     boletinInformativo,
+    rol = 'usuario', // Valor por defecto para el rol
   } = req.body;
   try {
     // Verificar si el correo ya existe
@@ -33,6 +37,7 @@ export const signUp = async (req, res) => {
       password: passwordEncriptado,
       pais: pais,
       boletinInformativo: boletinInformativo,
+      nombre: rol, // Cambiado de rol a nombre
     });
     // Generar el token de autenticación
     const token = jwt.sign({ id: nuevoUsuario.id }, process.env.SECRET, {
@@ -61,13 +66,20 @@ export const signIn = async (req, res) => {
     if (!passwordValido) {
       return res.status(401).json({ message: 'Contraseña incorrecta' });
     }
+    // Obtén el rol y los permisos del usuario
+    const { rol, permisos } = await usuario.getRoleAndPermissions();
     // Generar el token de autenticación
-    const token = jwt.sign({ id: usuario.id }, process.env.SECRET, {
-      expiresIn: 300,
-    });
+    const token = jwt.sign(
+      { id: usuario.id, rol, permisos }, // Añadido id del usuario
+      process.env.SECRET,
+      {
+        expiresIn: 300,
+      },
+    );
     // Enviar el token como respuesta
     res.status(200).json({ token });
   } catch (error) {
+    console.log(error);
     // Manejar los posibles errores
     res.status(500).json({ message: error.message });
   }

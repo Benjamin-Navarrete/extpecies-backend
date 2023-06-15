@@ -3,6 +3,8 @@ import express from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
 
+import { RolPermiso } from './models/RolPermiso';
+
 import usuariosRoutes from './routes/usuarios.routes';
 import especiesRoutes from './routes/especies.routes';
 import authRoutes from './routes/auth.routes';

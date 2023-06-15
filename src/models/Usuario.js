@@ -1,5 +1,8 @@
+// Archivo src\models\Usuario.js
 import { DataTypes } from 'sequelize';
 import { sequelize } from '../database/database';
+import { Rol } from './Rol';
+import { Permiso } from './Permiso';
 
 export const Usuario = sequelize.define('usuarios', {
   id: {
@@ -7,9 +10,10 @@ export const Usuario = sequelize.define('usuarios', {
     primaryKey: true,
     autoIncrement: true,
   },
-  rol: {
+  // Agregado el campo rol
+  nombre: {
     type: DataTypes.STRING,
-    defaultValue: 'usuario',
+    references: { model: Rol, key: 'nombre' }, // Agregado
   },
   nombres: {
     type: DataTypes.STRING,
@@ -33,3 +37,22 @@ export const Usuario = sequelize.define('usuarios', {
     type: DataTypes.BOOLEAN,
   },
 });
+
+Usuario.prototype.getRoleAndPermissions = async function () {
+  const usuarioConRol = await Usuario.findByPk(this.id, {
+    include: {
+      model: Rol,
+      as: 'rol',
+      include: {
+        model: Permiso,
+        as: 'permisos',
+        through: { attributes: [] }, // No incluir la tabla de asociación
+      },
+    },
+  });
+
+  return {
+    rol: usuarioConRol.rol.nombre,
+    permisos: usuarioConRol.rol.permisos.map((permiso) => permiso.codigo),
+  };
+};
