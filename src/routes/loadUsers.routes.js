@@ -4,7 +4,7 @@ import { loadSqlFile, executeSql } from '../database/loadSqlData';
 
 const router = express.Router();
 
-router.get('/loadusers', async (req, res, next) => {
+router.get('/loadUsers', async (req, res, next) => {
   try {
     const sql = await loadSqlFile();
     await executeSql(sql);
