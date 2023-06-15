@@ -12,9 +12,12 @@ export const obtenerUsuario = async (req, res) => {
   }
 };
 
+import bcrypt from 'bcrypt';
+
 export const crearUsuario = async (req, res) => {
   try {
     const {
+      nombre,
       nombres,
       apellidos,
       correo,
@@ -24,14 +27,17 @@ export const crearUsuario = async (req, res) => {
       boletinInformativo,
     } = req.body;
 
-    // Aquí puedes realizar la validación de los datos recibidos antes de crear el usuario
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // demás validaciones, búsqueda de usuario existente, etc...
 
     const usuario = await Usuario.create({
+      nombre,
       nombres,
       apellidos,
       correo,
       telefono,
-      password,
+      password: hashedPassword, // guardar la contraseña encriptada
       pais,
       boletinInformativo,
     });
@@ -46,6 +52,7 @@ export const actualizarUsuario = async (req, res) => {
   try {
     const { id } = req.params;
     const {
+      nombre,
       nombres,
       apellidos,
       correo,
@@ -64,6 +71,7 @@ export const actualizarUsuario = async (req, res) => {
     }
 
     await usuario.update({
+      nombre,
       nombres,
       apellidos,
       correo,
