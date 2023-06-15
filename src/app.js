@@ -10,6 +10,7 @@ import especiesRoutes from './routes/especies.routes';
 import authRoutes from './routes/auth.routes';
 import loadDataRoutes from './routes/loadData.routes';
 import rolRoutes from './routes/rol.routes';
+import loadUsersRoutes from './routes/loadUsers.routes';
 
 const app = express();
 
@@ -25,5 +26,6 @@ app.use('/api/especies', especiesRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/', loadDataRoutes);
 app.use('/api/roles', rolRoutes);
+app.use('/api/', loadUsersRoutes);
 
 export default app;
