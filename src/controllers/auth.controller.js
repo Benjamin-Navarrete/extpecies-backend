@@ -28,16 +28,25 @@ export const signUp = async (req, res) => {
     }
     // Encriptar la contraseña
     const passwordEncriptado = await encryptPassword(password);
-    // Crear el usuario en la base de datos
+    // Busca el rol en la tabla Rol
+    let rolUsuario = await Rol.findOne({ where: { nombre: rol } });
+
+    // Si el rol no existe, créalo
+    if (!rolUsuario) {
+      rolUsuario = await Rol.create({ nombre: rol });
+    }
+
+    // Ahora puedes crear el usuario con el rol existente
     const nuevoUsuario = await Usuario.create({
       nombres: nombreCompleto.split(' ')[0],
-      apellidos: nombreCompleto.split(' ').slice(1).join(' '),
+      apellidos: nombreCompleto.split(' ')[1],
       correo: correoElectronico,
       password: passwordEncriptado,
       pais: pais,
       boletinInformativo: boletinInformativo,
-      nombre: rol, // Cambiado de rol a nombre
+      nombre: rolUsuario.nombre,
     });
+
     // Generar el token de autenticación
     const token = jwt.sign({ id: nuevoUsuario.id }, process.env.SECRET, {
       expiresIn: 300,
