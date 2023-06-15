@@ -2,13 +2,19 @@
 import { DataTypes } from 'sequelize';
 import { sequelize } from '../database/database';
 
-export const Permiso = sequelize.define('permisos', {
-  codigo: {
-    type: DataTypes.STRING,
-    primaryKey: true, // Agregado
-    unique: true,
+export const Permiso = sequelize.define(
+  'permisos',
+  {
+    codigo: {
+      type: DataTypes.STRING,
+      primaryKey: true, // Agregado
+      unique: true,
+    },
+    descripcion: {
+      type: DataTypes.STRING,
+    },
   },
-  descripcion: {
-    type: DataTypes.STRING,
+  {
+    timestamps: false, // Aquí se deshabilitan las columnas
   },
-});
+);

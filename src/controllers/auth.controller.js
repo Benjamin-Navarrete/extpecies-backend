@@ -2,7 +2,6 @@
 import { Usuario } from '../models/Usuario';
 import { Rol } from '../models/Rol'; // Agregado
 import { Permiso } from '../models/Permiso'; // Agregado
-import '../models/associations'; // Agregado
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
