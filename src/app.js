@@ -9,6 +9,7 @@ import usuariosRoutes from './routes/usuarios.routes';
 import especiesRoutes from './routes/especies.routes';
 import authRoutes from './routes/auth.routes';
 import loadDataRoutes from './routes/loadData.routes';
+import rolRoutes from './routes/rol.routes';
 
 const app = express();
 
@@ -23,5 +24,6 @@ app.use('/api/usuarios', usuariosRoutes);
 app.use('/api/especies', especiesRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/', loadDataRoutes);
+app.use('/api/roles', rolRoutes);
 
 export default app;
