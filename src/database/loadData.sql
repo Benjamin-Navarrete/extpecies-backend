@@ -10,7 +10,8 @@ INSERT INTO permisos (codigo, descripcion) VALUES
 ('USU_02', 'editar usuario'),
 ('USU_03', 'eliminar usuario'),
 ('MEN_01', 'gestionar usuarios'),
-('MEN_02', 'gestionar especies');
+('MEN_02', 'gestionar especies'),
+('MEN_03', 'historial de especies');
 
 -- Asignar permisos al Rol de Administrador
 INSERT INTO rol_permisos (rol_id, permiso_id) VALUES 
@@ -21,14 +22,19 @@ INSERT INTO rol_permisos (rol_id, permiso_id) VALUES
 ('administrador', 'USU_02'),
 ('administrador', 'USU_03'),
 ('administrador', 'MEN_01'),
-('administrador', 'MEN_02');
+('administrador', 'MEN_02'),
+('administrador', 'MEN_03');
 
 -- Asignar permisos al Rol de Editor
 INSERT INTO rol_permisos (rol_id, permiso_id) VALUES 
 ('editor', 'ESP_01'),
 ('editor', 'ESP_02'),
 ('editor', 'ESP_03'),
-('editor', 'MEN_02');
+('editor', 'MEN_02'),
+('editor', 'MEN_03');
+
+INSERT INTO rol_permisos (rol_id, permiso_id) VALUES 
+('usuario', 'MEN_03');
 
 -- Insertar Usuarios
 INSERT INTO usuarios (nombre, nombres, apellidos, correo, password, pais) VALUES 
