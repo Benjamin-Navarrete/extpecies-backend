@@ -3,6 +3,7 @@ import { DataTypes } from 'sequelize';
 import { sequelize } from '../database/database';
 import { Rol } from './Rol';
 import { Permiso } from './Permiso';
+import { Historial } from './Historial';
 
 export const Usuario = sequelize.define(
   'usuarios',
@@ -46,6 +47,10 @@ export const Usuario = sequelize.define(
 
 Usuario.belongsTo(Rol, { as: 'rol', foreignKey: 'nombre' });
 Rol.hasMany(Usuario, { as: 'usuarios', foreignKey: 'nombre' });
+
+// Relación uno a muchos con Usuario
+Usuario.hasMany(Historial, { foreignKey: 'usuarioId', sourceKey: 'id' });
+Historial.belongsTo(Usuario, { foreignKey: 'usuarioId', targetKey: 'id' });
 
 Usuario.prototype.getRoleAndPermissions = async function () {
   const usuarioConRol = await Usuario.findByPk(this.id, {
