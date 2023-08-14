@@ -1,18 +1,31 @@
 // Archivo src\controllers\usuarios.controller.js
 import { Usuario } from '../models/Usuario';
+import bcrypt from 'bcrypt';
 
-export const obtenerUsuario = async (req, res) => {
-  try {
-    const usuarios = await Usuario.findAll();
-    res.status(200).json(usuarios);
-  } catch (error) {
-    res
-      .status(500)
-      .json({ error: 'Ocurrió un error al obtener los usuarios.' });
-  }
+const handleSuccess = (res, data, status = 200) => {
+  res.status(status).json(data);
 };
 
-import bcrypt from 'bcrypt';
+const handleError = (res, message, status = 500) => {
+  res.status(status).json({ error: message });
+};
+
+const NOT_FOUND_MESSAGE = 'Usuario no encontrado.';
+const ERROR_MESSAGES = {
+  obtener: 'Ocurrió un error al obtener los usuarios.',
+  crear: 'Ocurrió un error al crear el usuario.',
+  actualizar: 'Ocurrió un error al actualizar el usuario.',
+  eliminar: 'Ocurrió un error al eliminar el usuario.',
+};
+
+export const obtenerUsuarios = async (req, res) => {
+  try {
+    const usuarios = await Usuario.findAll();
+    handleSuccess(res, usuarios);
+  } catch (error) {
+    handleError(res, ERROR_MESSAGES.obtener);
+  }
+};
 
 export const crearUsuario = async (req, res) => {
   try {
@@ -37,14 +50,14 @@ export const crearUsuario = async (req, res) => {
       apellidos,
       correo,
       telefono,
-      password: hashedPassword, // guardar la contraseña encriptada
+      password: hashedPassword,
       pais,
       boletinInformativo,
     });
 
-    res.status(201).json(usuario);
+    handleSuccess(res, usuario, 201);
   } catch (error) {
-    res.status(500).json({ error: 'Ocurrió un error al crear el usuario.' });
+    handleError(res, ERROR_MESSAGES.crear);
   }
 };
 
@@ -67,7 +80,7 @@ export const actualizarUsuario = async (req, res) => {
     const usuario = await Usuario.findByPk(id);
 
     if (!usuario) {
-      return res.status(404).json({ error: 'Usuario no encontrado.' });
+      return res.status(404).json({ error: NOT_FOUND_MESSAGE });
     }
 
     await usuario.update({
@@ -81,11 +94,9 @@ export const actualizarUsuario = async (req, res) => {
       boletinInformativo,
     });
 
-    res.status(200).json(usuario);
+    handleSuccess(res, usuario);
   } catch (error) {
-    res
-      .status(500)
-      .json({ error: 'Ocurrió un error al actualizar el usuario.' });
+    handleError(res, ERROR_MESSAGES.actualizar);
   }
 };
 
@@ -96,13 +107,13 @@ export const eliminarUsuario = async (req, res) => {
     const usuario = await Usuario.findByPk(id);
 
     if (!usuario) {
-      return res.status(404).json({ error: 'Usuario no encontrado.' });
+      return res.status(404).json({ error: NOT_FOUND_MESSAGE });
     }
 
     await usuario.destroy();
 
-    res.status(200).json({ message: 'Usuario eliminado correctamente.' });
+    handleSuccess(res, { message: 'Usuario eliminado correctamente.' });
   } catch (error) {
-    res.status(500).json({ error: 'Ocurrió un error al eliminar el usuario.' });
+    handleError(res, ERROR_MESSAGES.eliminar);
   }
 };

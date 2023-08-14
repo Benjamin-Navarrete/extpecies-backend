@@ -1,12 +1,21 @@
 // Archivo src\controllers\roles.controller.js
-
 import { Rol } from '../models/Rol';
+
+const handleSuccess = (res, data, status = 200) => {
+  res.status(status).json(data);
+};
+
+const handleError = (res, message, status = 500) => {
+  res.status(status).json({ error: message });
+};
+
+const ERROR_MESSAGE = 'Ocurrió un error al obtener los roles.';
 
 export const obtenerRoles = async (req, res) => {
   try {
     const roles = await Rol.findAll();
-    res.status(200).json(roles);
+    handleSuccess(res, roles);
   } catch (error) {
-    res.status(500).json({ error: 'Ocurrió un error al obtener los roles.' });
+    handleError(res, ERROR_MESSAGE);
   }
 };

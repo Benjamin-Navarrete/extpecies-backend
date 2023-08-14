@@ -5,14 +5,14 @@ import { especieController as controller } from '../controllers/especies.control
 const router = Router();
 
 // CRUD especies
-router.get('/', controller.getAll);
+router.get('/', controller.getAllSpecies);
 
-router.post('/', controller.create);
+router.post('/', controller.createSpecies);
 
-router.put('/:id', controller.update);
+router.put('/:id', controller.updateSpecies);
 
-router.delete('/:id', controller.delete);
+router.delete('/:id', controller.deleteSpecies);
 
-router.get('/:id', controller.getById);
+router.get('/:id', controller.getSpeciesById);
 
 export default router;

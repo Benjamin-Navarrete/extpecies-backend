@@ -1,56 +1,62 @@
+// Archivo src\middlewares\authJwt.js
 import jwt from 'jsonwebtoken';
 import { Usuario } from '../models/Usuario';
 import dotenv from 'dotenv';
 
 dotenv.config();
 
+const handleAuthError = (res, message, status) => {
+  res.status(status).json({ message });
+};
+
+const ERROR_MESSAGES = {
+  noToken: 'No token provided',
+  unauthorized: 'Unauthorized',
+  userNotFound: 'User not found',
+};
+
 export const verifyToken = async (req, res, next) => {
   const token = req.headers['x-access-token'];
 
-  if (!token) return res.status(403).json({ message: 'No token provided' });
+  if (!token) {
+    return handleAuthError(res, ERROR_MESSAGES.noToken, 403);
+  }
 
   try {
     const decoded = jwt.verify(token, process.env.SECRET);
     req.userId = decoded.id;
     const user = await Usuario.findByPk(req.userId);
-    if (!user) return res.status(404).json({ message: 'User not found' });
+    if (!user) {
+      return handleAuthError(res, ERROR_MESSAGES.userNotFound, 404);
+    }
     console.log(user);
     next();
   } catch (error) {
-    return res.status(401).json({ message: 'Unauthorized' });
+    return handleAuthError(res, ERROR_MESSAGES.unauthorized, 401);
+  }
+};
+
+const checkUserRole = async (req, res, next, allowedRoles) => {
+  try {
+    const user = await Usuario.findByPk(req.userId);
+    if (allowedRoles.includes(user.rol)) {
+      next();
+    } else {
+      return handleAuthError(res, ERROR_MESSAGES.unauthorized, 403);
+    }
+  } catch (error) {
+    return handleAuthError(res, ERROR_MESSAGES.unauthorized, 403);
   }
 };
 
 export const isUser = async (req, res, next) => {
-  const user = await Usuario.findByPk(req.userId);
-  if (
-    user.rol === 'usuario' ||
-    user.rol === 'editor' ||
-    user.rol === 'administrador'
-  ) {
-    next();
-    return;
-  } else {
-    return res.status(403).json({ message: 'Unauthorized' });
-  }
+  await checkUserRole(req, res, next, ['usuario', 'editor', 'administrador']);
 };
 
 export const isEditor = async (req, res, next) => {
-  const user = await Usuario.findByPk(req.userId);
-  if (user.rol === 'editor' || user.rol === 'administrador') {
-    next();
-    return;
-  } else {
-    return res.status(403).json({ message: 'Unauthorized' });
-  }
+  await checkUserRole(req, res, next, ['editor', 'administrador']);
 };
 
 export const isAdmin = async (req, res, next) => {
-  const user = await Usuario.findByPk(req.userId);
-  if (user.rol === 'administrador') {
-    next();
-    return;
-  } else {
-    return res.status(403).json({ message: 'Unauthorized' });
-  }
+  await checkUserRole(req, res, next, ['administrador']);
 };

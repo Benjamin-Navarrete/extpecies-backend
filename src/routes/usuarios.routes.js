@@ -7,7 +7,7 @@ import * as usuariosController from '../controllers/usuarios.controller';
 
 // CRUD usuarios
 
-router.get('/', usuariosController.obtenerUsuario);
+router.get('/', usuariosController.obtenerUsuarios);
 
 router.post('/', usuariosController.crearUsuario);
 

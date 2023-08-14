@@ -1,7 +1,6 @@
 // Archivo src\routes\historial.routes.js:
 import { Router } from 'express';
 import * as historialController from '../controllers/historial.controller';
-import { authJwt } from '../middlewares';
 
 const router = Router();
 
