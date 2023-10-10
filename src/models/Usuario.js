@@ -13,11 +13,6 @@ export const Usuario = sequelize.define(
       primaryKey: true,
       autoIncrement: true,
     },
-    // Agregado el campo rol
-    nombre: {
-      type: DataTypes.STRING,
-      references: { model: Rol, key: 'nombre' }, // Agregado
-    },
     nombres: {
       type: DataTypes.STRING,
     },
@@ -45,8 +40,8 @@ export const Usuario = sequelize.define(
   },
 );
 
-Usuario.belongsTo(Rol, { as: 'rol', foreignKey: 'nombre' });
-Rol.hasMany(Usuario, { as: 'usuarios', foreignKey: 'nombre' });
+Usuario.belongsTo(Rol, { as: 'rol', foreignKey: 'nombreRol' });
+Rol.hasMany(Usuario, { as: 'usuarios', foreignKey: 'nombreRol' });
 
 // Relación uno a muchos con Usuario
 Usuario.hasMany(Historial, { foreignKey: 'usuarioId', sourceKey: 'id' });
@@ -66,7 +61,7 @@ Usuario.prototype.getRoleAndPermissions = async function () {
   });
 
   return {
-    rol: usuarioConRol.rol.nombre,
+    rol: usuarioConRol.rol.nombreRol,
     permisos: usuarioConRol.rol.permisos.map((permiso) => permiso.codigo),
   };
 };

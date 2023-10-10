@@ -10,7 +10,7 @@ export const RolPermiso = sequelize.define(
     rol_id: {
       type: DataTypes.STRING,
       primaryKey: true,
-      references: { model: Rol, key: 'nombre' }, // Agregado
+      references: { model: Rol, key: 'nombreRol' }, // Agregado
     },
     permiso_id: {
       type: DataTypes.STRING,
