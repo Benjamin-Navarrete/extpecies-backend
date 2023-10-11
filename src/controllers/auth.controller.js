@@ -81,7 +81,19 @@ export const signIn = async (req, res) => {
       { expiresIn: TOKEN_EXPIRATION },
     );
 
-    res.status(200).json({ token });
+    // retornar usuario y token
+    const usuarioLogeado = {
+      id: usuario.id,
+      nombres: usuario.nombres,
+      apellidos: usuario.apellidos,
+      correo: usuario.correo,
+      telefono: usuario.telefono,
+      pais: usuario.pais,
+      boletinInformativo: usuario.boletinInformativo,
+      nombreRol: usuario.nombreRol,
+    };
+
+    res.status(200).json({ token, usuario: usuarioLogeado });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: error.message });
