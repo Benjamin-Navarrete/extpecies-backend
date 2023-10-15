@@ -65,7 +65,7 @@ export const signIn = async (req, res) => {
       where: { correo: correoElectronico },
     });
     if (!usuario) {
-      return res.status(404).json({ message: 'Usuario no encontrado' });
+      return res.status(404).json({ message: 'Usuario no registrado' });
     }
 
     const passwordValido = await comparePassword(password, usuario.password);

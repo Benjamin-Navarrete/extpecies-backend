@@ -12,6 +12,7 @@ import loadDataRoutes from './routes/loadData.routes';
 import rolRoutes from './routes/rol.routes';
 import loadUsersRoutes from './routes/loadUsers.routes';
 import historialRoutes from './routes/historial.routes';
+import likesRoutes from './routes/likes.routes';
 
 const app = express();
 
@@ -29,5 +30,6 @@ app.use('/api/', loadDataRoutes);
 app.use('/api/roles', rolRoutes);
 app.use('/api/', loadUsersRoutes);
 app.use('/api/', historialRoutes);
+app.use('/api/likes', likesRoutes);
 
 export default app;
