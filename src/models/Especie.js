@@ -41,11 +41,11 @@ export const Especie = sequelize.define('especies', {
   },
   limiteElevacionSuperior: {
     type: DataTypes.TEXT,
-    allowNull: true, // Puede ser nulo
+    allowNull: true,
   },
   limiteElevacionInferior: {
     type: DataTypes.TEXT,
-    allowNull: true, // Puede ser nulo
+    allowNull: true,
   },
   descripcionGeografica: {
     type: DataTypes.TEXT,
@@ -61,7 +61,7 @@ export const Especie = sequelize.define('especies', {
   },
   tiposHabitat: {
     type: DataTypes.TEXT,
-    allowNull: true, // Puede ser nulo
+    allowNull: true,
   },
   detallesHabitat: {
     type: DataTypes.TEXT,
@@ -77,10 +77,10 @@ export const Especie = sequelize.define('especies', {
   },
   latitud: {
     type: DataTypes.FLOAT,
-    allowNull: true, // Puede ser nulo
+    allowNull: true,
   },
   longitud: {
     type: DataTypes.FLOAT,
-    allowNull: true, // Puede ser nulo
+    allowNull: true,
   },
 });

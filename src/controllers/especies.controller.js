@@ -12,7 +12,17 @@ const handleError = (res, message, status = 500) => {
 export const especieController = {
   getAllSpecies: async (req, res) => {
     try {
-      const especies = await Especie.findAll();
+      // Usar el método attributes para especificar los campos que quieres obtener
+      const especies = await Especie.findAll({
+        attributes: [
+          'id',
+          'latitud',
+          'longitud',
+          'imagen',
+          'nombreComun',
+          'estadoConservacion',
+        ],
+      });
       handleSuccess(res, especies);
     } catch (error) {
       handleError(res, error.message);
@@ -21,12 +31,17 @@ export const especieController = {
 
   getSpeciesById: async (req, res) => {
     try {
+      // Obtener el id de la especie desde el parámetro de la ruta
       const { id } = req.params;
+      // Buscar la especie por id
       const especie = await Especie.findByPk(id);
+      // Verificar si la especie existe
       if (especie) {
+        // Devolver los datos de la especie
         handleSuccess(res, especie);
       } else {
-        handleError(res, `Especie con id ${id} no encontrada`, 404);
+        // Devolver un mensaje de error si la especie no existe
+        handleError(res, 'La especie no existe', 404);
       }
     } catch (error) {
       handleError(res, error.message);
