@@ -8,12 +8,19 @@ import * as likesController from '../controllers/likes.controller';
 
 router.get('/', likesController.obtenerLikes);
 
+router.get(
+  '/users/:id_usuario/especies/:id_especie',
+  likesController.getLikeByUserAndEspecie,
+);
+
 router.post('/', likesController.crearLike);
 
-router.delete('/:id', likesController.eliminarLike);
+router.delete('/', likesController.eliminarLike);
 
 router.get('/users/:id', likesController.getLikesByUser);
 
 router.get('/especies/:id', likesController.getLikesByEspecie);
+
+router.get('/especies/:id/count', likesController.getLikesCountByEspecie);
 
 export default router;

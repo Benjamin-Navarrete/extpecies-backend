@@ -18,6 +18,35 @@ const ERROR_MESSAGES = {
   eliminar: 'Ocurrió un error al eliminar el like.',
 };
 
+// Función para obtener el like que el usuario ha dado a una especie por sus ids
+export const getLikeByUserAndEspecie = async (req, res) => {
+  try {
+    // Obtener los ids del usuario y la especie de los parámetros de la ruta
+    const { id_usuario, id_especie } = req.params;
+
+    // Buscar el like que coincida con los ids recibidos
+    const like = await Likes.findOne({
+      where: {
+        id_usuario,
+        id_especie,
+      },
+    });
+
+    // Si no se encuentra el like, devolver un mensaje de error con código 404
+    if (!like) {
+      handleError(res, NOT_FOUND_MESSAGE, 404);
+      return;
+    }
+
+    // Si se encuentra el like, devolverlo con código 200
+    handleSuccess(res, like);
+  } catch (error) {
+    console.log(error);
+    // Si ocurre algún error en la búsqueda, devolver un mensaje de error con código 500
+    handleError(res, ERROR_MESSAGES.obtener);
+  }
+};
+
 export const obtenerLikes = async (req, res) => {
   try {
     const likes = await Likes.findAll({
@@ -78,6 +107,23 @@ export const getLikesByEspecie = async (req, res) => {
   }
 };
 
+export const getLikesCountByEspecie = async (req, res) => {
+  console.log('ENTER');
+  try {
+    const { id } = req.params;
+
+    const likesCount = await Likes.count({
+      where: {
+        id_especie: id,
+      },
+    });
+
+    handleSuccess(res, likesCount);
+  } catch (error) {
+    handleError(res, ERROR_MESSAGES.obtener);
+  }
+};
+
 export const crearLike = async (req, res) => {
   try {
     const { id_usuario, id_especie } = req.body;
@@ -97,17 +143,23 @@ export const crearLike = async (req, res) => {
 
 export const eliminarLike = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { id_usuario, id_especie } = req.body;
 
-    const like = await Likes.findByPk(id);
+    const like = await Likes.findOne({
+      where: {
+        id_usuario,
+        id_especie,
+      },
+    });
 
     if (!like) {
-      return res.status(404).json({ error: NOT_FOUND_MESSAGE });
+      handleError(res, NOT_FOUND_MESSAGE, 404);
+      return;
     }
 
     await like.destroy();
 
-    handleSuccess(res, { message: 'Like eliminado correctamente.' });
+    handleSuccess(res, like);
   } catch (error) {
     handleError(res, ERROR_MESSAGES.eliminar);
   }
