@@ -75,12 +75,6 @@ export const signIn = async (req, res) => {
 
     const { rol, permisos } = await usuario.getRoleAndPermissions();
 
-    const token = jwt.sign(
-      { id: usuario.id, rol, permisos },
-      process.env.SECRET,
-      { expiresIn: TOKEN_EXPIRATION },
-    );
-
     // retornar usuario y token
     const usuarioLogeado = {
       id: usuario.id,
@@ -92,6 +86,12 @@ export const signIn = async (req, res) => {
       boletinInformativo: usuario.boletinInformativo,
       nombreRol: usuario.nombreRol,
     };
+
+    const token = jwt.sign(
+      { id: usuario.id, rol, permisos, usuario: usuarioLogeado },
+      process.env.SECRET,
+      { expiresIn: TOKEN_EXPIRATION },
+    );
 
     res.status(200).json({ token, usuario: usuarioLogeado });
   } catch (error) {

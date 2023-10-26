@@ -77,12 +77,12 @@ export const getLikesByUser = async (req, res) => {
       },
       include: {
         model: Especie,
-        as: 'especie',
       },
     });
 
     handleSuccess(res, likes);
   } catch (error) {
+    console.log(error);
     handleError(res, ERROR_MESSAGES.obtener);
   }
 };
