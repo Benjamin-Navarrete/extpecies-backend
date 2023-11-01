@@ -1,10 +1,10 @@
 // Archivo src\controllers\comentario.controller.js
 import { Comentario } from '../models/Comentario';
+import { Usuario } from '../models/Usuario';
 
 export const crearComentario = async (req, res) => {
   try {
-    const { contenido, especieId } = req.body;
-    const usuarioId = req.usuario.id;
+    const { contenido, especieId, usuarioId } = req.body;
     const comentario = await Comentario.create({
       contenido,
       usuarioId,
@@ -22,7 +22,7 @@ export const obtenerComentarios = async (req, res) => {
     const offset = (page - 1) * limit;
     const comentarios = await Comentario.findAndCountAll({
       where: { especieId },
-      include: [{ model: Usuario, attributes: ['nombre', 'email'] }],
+      include: [{ model: Usuario, attributes: ['nombres', 'apellidos'] }],
       order: [['fecha', 'DESC']],
       offset,
       limit,
@@ -36,8 +36,7 @@ export const obtenerComentarios = async (req, res) => {
 export const actualizarComentario = async (req, res) => {
   try {
     const { id } = req.params;
-    const { contenido } = req.body;
-    const usuarioId = req.usuario.id;
+    const { contenido, usuarioId } = req.body;
     const comentario = await Comentario.findOne({ where: { id, usuarioId } });
     if (!comentario) {
       return res.status(404).json({ message: 'Comentario no encontrado' });
@@ -53,7 +52,8 @@ export const actualizarComentario = async (req, res) => {
 export const eliminarComentario = async (req, res) => {
   try {
     const { id } = req.params;
-    const usuarioId = req.usuario.id;
+    const usuarioId = req.body.usuarioId;
+
     const comentario = await Comentario.findOne({ where: { id, usuarioId } });
     if (!comentario) {
       return res.status(404).json({ message: 'Comentario no encontrado' });

@@ -3,9 +3,6 @@ import express from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
 
-import { RolPermiso } from './models/RolPermiso';
-import { List } from './models/List';
-
 import usuariosRoutes from './routes/usuarios.routes';
 import especiesRoutes from './routes/especies.routes';
 import authRoutes from './routes/auth.routes';
@@ -15,6 +12,7 @@ import loadUsersRoutes from './routes/loadUsers.routes';
 import historialRoutes from './routes/historial.routes';
 import likesRoutes from './routes/likes.routes';
 import comentarioRoutes from './routes/comentario.routes';
+import listaRoutes from './routes/lista.routes';
 
 const app = express();
 
@@ -34,5 +32,6 @@ app.use('/api/', loadUsersRoutes);
 app.use('/api/', historialRoutes);
 app.use('/api/likes', likesRoutes);
 app.use('/api/', comentarioRoutes);
+app.use('/api/listas', listaRoutes);
 
 export default app;
