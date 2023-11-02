@@ -7,7 +7,7 @@ import * as controller from '../controllers/listas.controller';
 const router = Router();
 
 // Defino las rutas para las operaciones CRUD de las listas
-// router.get('/', controller.getAllLists); // Obtener todas las listas
+router.post('/getLists', controller.getAllLists); // Obtener todas las listas
 router.post('/', controller.createList); // Crear una nueva lista
 // router.put('/:id', controller.updateList); // Actualizar una lista por id
 // router.delete('/:id', controller.deleteList); // Eliminar una lista por id
