@@ -1,5 +1,5 @@
 -- Insertar Roles
-INSERT INTO roles (nombre) VALUES ('administrador'), ('editor'), ('usuario');
+INSERT INTO roles (nombre_rol) VALUES ('administrador'), ('editor'), ('usuario');
 
 -- Insertar Permisos
 INSERT INTO permisos (codigo, descripcion) VALUES 
@@ -37,7 +37,7 @@ INSERT INTO rol_permisos (rol_id, permiso_id) VALUES
 ('usuario', 'MEN_03');
 
 -- Insertar Usuarios
-INSERT INTO usuarios (nombre, nombres, apellidos, correo, password, pais) VALUES 
+INSERT INTO usuarios (nombre_rol, nombres, apellidos, correo, password, pais) VALUES 
 ('administrador', 'Admin', 'User', 'admin@ejemplo.com', '$2b$10$7RsLxq4bigJohMB2ceECJOKBpBr1kQJ2XlMT0qRqU8/.pM2/08yGy', 'Chile'),
 ('editor', 'Editor', 'User', 'editor@ejemplo.com', '$2b$10$wsVM.M.qgtTB.nbUUsznP.eCN1RZYMSH8Lr4nVSnMNPO.YsQRVCZW', 'Chile'),
 ('usuario', 'Regular', 'User', 'user@ejemplo.com', '$2b$10$WKikwev3XwW5ZuM.XXfx9uxtJplQc.dhHdusPEMfdyAbzKNFi.4tq', 'Chile');

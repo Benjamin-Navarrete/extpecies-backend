@@ -1,5 +1,6 @@
 // Archivo src\controllers\roles.controller.js
 import { Rol } from '../models/Rol';
+import { RolPermiso } from '../models/RolPermiso';
 
 const handleSuccess = (res, data, status = 200) => {
   res.status(status).json(data);

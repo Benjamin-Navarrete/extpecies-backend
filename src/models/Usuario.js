@@ -40,8 +40,8 @@ export const Usuario = sequelize.define(
   },
 );
 
-Usuario.belongsTo(Rol, { as: 'rol', foreignKey: 'nombreRol' });
-Rol.hasMany(Usuario, { as: 'usuarios', foreignKey: 'nombreRol' });
+Usuario.belongsTo(Rol, { as: 'rol', foreignKey: 'nombre_rol' });
+Rol.hasMany(Usuario, { as: 'usuarios', foreignKey: 'nombre_rol' });
 
 // Relación uno a muchos con Usuario
 Usuario.hasMany(Historial, { foreignKey: 'usuarioId', sourceKey: 'id' });
@@ -61,7 +61,7 @@ Usuario.prototype.getRoleAndPermissions = async function () {
   });
 
   return {
-    rol: usuarioConRol.rol.nombreRol,
+    rol: usuarioConRol.rol.nombre_rol,
     permisos: usuarioConRol.rol.permisos.map((permiso) => permiso.codigo),
   };
 };

@@ -30,10 +30,10 @@ export const signUp = async (req, res) => {
 
     const passwordEncriptado = await encryptPassword(password);
 
-    let rolUsuario = await Rol.findOne({ where: { nombreRol: rol } });
+    let rolUsuario = await Rol.findOne({ where: { nombre_rol: rol } });
 
     if (!rolUsuario) {
-      rolUsuario = await Rol.create({ nombreRol: rol });
+      rolUsuario = await Rol.create({ nombre_rol: rol });
     }
 
     const [nombres, apellidos] = nombreCompleto.split(' ');
@@ -44,7 +44,7 @@ export const signUp = async (req, res) => {
       password: passwordEncriptado,
       pais,
       boletinInformativo,
-      nombreRol: rolUsuario.nombreRol,
+      nombre_rol: rolUsuario.nombre_rol,
     });
 
     const token = jwt.sign({ id: nuevoUsuario.id }, process.env.SECRET, {
@@ -84,7 +84,7 @@ export const signIn = async (req, res) => {
       telefono: usuario.telefono,
       pais: usuario.pais,
       boletinInformativo: usuario.boletinInformativo,
-      nombreRol: usuario.nombreRol,
+      nombre_rol: usuario.nombre_rol,
     };
 
     const token = jwt.sign(

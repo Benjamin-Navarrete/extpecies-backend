@@ -5,7 +5,7 @@ import { sequelize } from '../database/database';
 export const Rol = sequelize.define(
   'roles',
   {
-    nombreRol: {
+    nombre_rol: {
       type: DataTypes.STRING,
       primaryKey: true,
       unique: true,
