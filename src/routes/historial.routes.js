@@ -6,14 +6,14 @@ const router = Router();
 
 router.post('/historial', historialController.createHistorial);
 
-router.get('/historial/:usuarioId', historialController.getHistorialByUsuario);
+router.get('/historial/:usuario_id', historialController.getHistorialByUsuario);
 
 router.put('/historial/:id', historialController.updateHistorial);
 
 router.delete('/historial/:id', historialController.deleteHistorial);
 
 router.delete(
-  '/historiales/:usuarioId',
+  '/historiales/:usuario_id',
   historialController.deleteHistorialByUsuario,
 );
 

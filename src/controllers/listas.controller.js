@@ -1,4 +1,4 @@
-// Importo los modelos de Lista, Usuario y Especie
+// Archivo src\controllers\listas.controller.js
 import { Lista } from '../models/Lista';
 import { Usuario } from '../models/Usuario';
 import { Especie } from '../models/Especie';
@@ -7,14 +7,14 @@ import { Especie } from '../models/Especie';
 export const createList = async (req, res) => {
   try {
     // Obtengo los datos del cuerpo de la petición
-    const { nombre, descripcion, usuarioId } = req.body;
+    const { nombre, descripcion, usuario_id } = req.body;
 
     // Valido que el usuario exista en la base de datos
-    const usuario = await Usuario.findByPk(usuarioId);
+    const usuario = await Usuario.findByPk(usuario_id);
     if (!usuario) {
       // Si el usuario no existe, envío una respuesta con el código 404 y un mensaje de error
       return res.status(404).json({
-        message: 'No se encontró el usuario con el id ' + usuarioId,
+        message: 'No se encontró el usuario con el id ' + usuario_id,
       });
     }
 
@@ -22,7 +22,7 @@ export const createList = async (req, res) => {
     const lista = await Lista.create({
       nombre,
       descripcion,
-      usuarioId,
+      usuario_id,
     });
 
     // Envío una respuesta con el código 201 y la lista creada
@@ -52,7 +52,7 @@ export const getAllLists = async (req, res) => {
 
     // Si el usuario existe, obtengo todas las listas del usuario
     const listas = await Lista.findAll({
-      where: { usuarioId: userId },
+      where: { usuario_id: userId },
       include: {
         model: Especie,
         as: 'especies',
@@ -65,6 +65,56 @@ export const getAllLists = async (req, res) => {
   } catch (error) {
     return res.status(500).json({
       message: 'Error al obtener las listas',
+      error,
+    });
+  }
+};
+
+// Creo una función para añadir una especie a una lista
+export const addSpecieToList = async (req, res) => {
+  try {
+    // Obtengo los parámetros de la ruta
+    const { lista_id, especie_id } = req.params;
+
+    // Valido que la lista exista en la base de datos
+    const lista = await Lista.findByPk(lista_id, {
+      include: {
+        model: Especie,
+        as: 'especies',
+      },
+    });
+    if (!lista) {
+      // Si la lista no existe, envío una respuesta con el código 404 y un mensaje de error
+      return res.status(404).json({
+        message: 'No se encontró la lista con el id ' + lista_id,
+      });
+    }
+
+    // Valido que la especie exista en la base de datos
+    const especie = await Especie.findByPk(especie_id);
+    if (!especie) {
+      // Si la especie no existe, envío una respuesta con el código 404 y un mensaje de error
+      return res.status(404).json({
+        message: 'No se encontró la especie con el id ' + especie_id,
+      });
+    }
+
+    // Si la lista y la especie existen, uso el método addEspecie del modelo Lista para asociar la especie a la lista
+    await lista.addEspecy(especie);
+
+    // Envío una respuesta con el código 200 y un mensaje de éxito
+    return res.status(200).json({
+      message:
+        'Se ha añadido la especie ' +
+        especie.nombreComun +
+        ' a la lista ' +
+        lista.nombre,
+    });
+  } catch (error) {
+    console.log(error);
+    // Enviar una respuesta con el código 500 y el error
+    return res.status(500).json({
+      message: 'Error al añadir la especie a la lista',
       error,
     });
   }

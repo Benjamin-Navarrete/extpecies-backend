@@ -4,11 +4,11 @@ import { Usuario } from '../models/Usuario';
 
 export const crearComentario = async (req, res) => {
   try {
-    const { contenido, especieId, usuarioId } = req.body;
+    const { contenido, especie_id, usuario_id } = req.body;
     const comentario = await Comentario.create({
       contenido,
-      usuarioId,
-      especieId,
+      usuario_id,
+      especie_id,
     });
     res.status(201).json(comentario);
   } catch (error) {
@@ -18,10 +18,10 @@ export const crearComentario = async (req, res) => {
 
 export const obtenerComentarios = async (req, res) => {
   try {
-    const { especieId, page, limit } = req.query;
+    const { especie_id, page, limit } = req.query;
     const offset = (page - 1) * limit;
     const comentarios = await Comentario.findAndCountAll({
-      where: { especieId },
+      where: { especie_id },
       include: [{ model: Usuario, attributes: ['nombres', 'apellidos'] }],
       order: [['fecha', 'DESC']],
       offset,
@@ -36,8 +36,8 @@ export const obtenerComentarios = async (req, res) => {
 export const actualizarComentario = async (req, res) => {
   try {
     const { id } = req.params;
-    const { contenido, usuarioId } = req.body;
-    const comentario = await Comentario.findOne({ where: { id, usuarioId } });
+    const { contenido, usuario_id } = req.body;
+    const comentario = await Comentario.findOne({ where: { id, usuario_id } });
     if (!comentario) {
       return res.status(404).json({ message: 'Comentario no encontrado' });
     }
@@ -52,9 +52,9 @@ export const actualizarComentario = async (req, res) => {
 export const eliminarComentario = async (req, res) => {
   try {
     const { id } = req.params;
-    const usuarioId = req.body.usuarioId;
+    const usuario_id = req.body.usuario_id;
 
-    const comentario = await Comentario.findOne({ where: { id, usuarioId } });
+    const comentario = await Comentario.findOne({ where: { id, usuario_id } });
     if (!comentario) {
       return res.status(404).json({ message: 'Comentario no encontrado' });
     }

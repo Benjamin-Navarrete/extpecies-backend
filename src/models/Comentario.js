@@ -18,7 +18,7 @@ export const Comentario = sequelize.define('comentarios', {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW,
   },
-  usuarioId: {
+  usuario_id: {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
@@ -26,7 +26,7 @@ export const Comentario = sequelize.define('comentarios', {
       key: 'id',
     },
   },
-  especieId: {
+  especie_id: {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
@@ -36,8 +36,8 @@ export const Comentario = sequelize.define('comentarios', {
   },
 });
 
-Comentario.belongsTo(Usuario, { foreignKey: 'usuarioId', targetKey: 'id' });
-Usuario.hasMany(Comentario, { foreignKey: 'usuarioId', sourceKey: 'id' });
+Comentario.belongsTo(Usuario, { foreignKey: 'usuario_id', targetKey: 'id' });
+Usuario.hasMany(Comentario, { foreignKey: 'usuario_id', sourceKey: 'id' });
 
-Comentario.belongsTo(Especie, { foreignKey: 'especieId', targetKey: 'id' });
-Especie.hasOne(Comentario, { foreignKey: 'especieId', sourceKey: 'id' });
+Comentario.belongsTo(Especie, { foreignKey: 'especie_id', targetKey: 'id' });
+Especie.hasOne(Comentario, { foreignKey: 'especie_id', sourceKey: 'id' });

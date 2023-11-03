@@ -38,17 +38,17 @@ const handleNotFound = (res, message) => {
 
 export const createHistorial = async (req, res) => {
   try {
-    const { usuarioId, fecha, hora, especie, informacion } = req.body;
+    const { usuario_id, fecha, hora, especie, informacion } = req.body;
     const newHistorial = await Historial.create(
       {
-        usuarioId,
+        usuario_id,
         fecha,
         hora,
         especie,
         informacion,
       },
       {
-        fields: ['usuarioId', 'fecha', 'hora', 'especie', 'informacion'],
+        fields: ['usuario_id', 'fecha', 'hora', 'especie', 'informacion'],
       },
     );
     handleSuccess(
@@ -64,10 +64,10 @@ export const createHistorial = async (req, res) => {
 
 export const getHistorialByUsuario = async (req, res) => {
   try {
-    const { usuarioId } = req.params;
+    const { usuario_id } = req.params;
     const historial = await Historial.findAll({
       where: {
-        usuarioId,
+        usuario_id,
       },
       order: [
         ['fecha', 'DESC'],
@@ -110,11 +110,11 @@ export const deleteHistorial = async (req, res) => {
 };
 
 export const deleteHistorialByUsuario = async (req, res) => {
-  const { usuarioId } = req.params;
+  const { usuario_id } = req.params;
   try {
     const deletedRows = await Historial.destroy({
       where: {
-        usuarioId,
+        usuario_id,
       },
     });
     handleSuccess(

@@ -44,8 +44,8 @@ Usuario.belongsTo(Rol, { as: 'rol', foreignKey: 'nombre_rol' });
 Rol.hasMany(Usuario, { as: 'usuarios', foreignKey: 'nombre_rol' });
 
 // Relación uno a muchos con Usuario
-Usuario.hasMany(Historial, { foreignKey: 'usuarioId', sourceKey: 'id' });
-Historial.belongsTo(Usuario, { foreignKey: 'usuarioId', targetKey: 'id' });
+Usuario.hasMany(Historial, { foreignKey: 'usuario_id', sourceKey: 'id' });
+Historial.belongsTo(Usuario, { foreignKey: 'usuario_id', targetKey: 'id' });
 
 Usuario.prototype.getRoleAndPermissions = async function () {
   const usuarioConRol = await Usuario.findByPk(this.id, {

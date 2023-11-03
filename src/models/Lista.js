@@ -1,7 +1,6 @@
 // Archivo src\models\Lista.js
 import { DataTypes } from 'sequelize';
 import { sequelize } from '../database/database';
-// Importo los modelos de Usuario y Especie
 import { Usuario } from './Usuario';
 import { Especie } from './Especie';
 
@@ -27,17 +26,19 @@ export const Lista = sequelize.define(
 );
 
 // Establezco una relación de uno a muchos entre Usuario y Lista
-Usuario.hasMany(Lista, { foreignKey: 'usuarioId', sourceKey: 'id' });
-Lista.belongsTo(Usuario, { foreignKey: 'usuarioId', targetKey: 'id' });
+Usuario.hasMany(Lista, { foreignKey: 'usuario_id', sourceKey: 'id' });
+Lista.belongsTo(Usuario, { foreignKey: 'usuario_id', targetKey: 'id' });
 
 // Establezco una relación de muchos a muchos entre Lista y Especie
 Lista.belongsToMany(Especie, {
-  through: 'listas_especies',
-  foreignKey: 'listaId',
-  otherKey: 'especieId',
+  through: { model: 'listas_especies' },
+  foreignKey: 'lista_id',
+  otherKey: 'especie_id',
+  as: 'especies',
 });
 Especie.belongsToMany(Lista, {
-  through: 'listas_especies',
-  foreignKey: 'especieId',
-  otherKey: 'listaId',
+  through: { model: 'listas_especies' },
+  foreignKey: 'especie_id',
+  otherKey: 'lista_id',
+  as: 'listas',
 });
