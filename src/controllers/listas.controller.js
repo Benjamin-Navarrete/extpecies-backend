@@ -99,7 +99,20 @@ export const addSpecieToList = async (req, res) => {
       });
     }
 
-    // Si la lista y la especie existen, uso el método addEspecie del modelo Lista para asociar la especie a la lista
+    // Valido que la lista no tenga ya la especie que se quiere añadir
+    const hasEspecie = await lista.hasEspecy(especie); // Uso el método hasEspecie para comprobar si la lista tiene la especie
+    if (hasEspecie) {
+      // Si la lista tiene la especie, envío una respuesta con el código 400 y un mensaje de error
+      return res.status(400).json({
+        message:
+          'La lista ' +
+          lista.nombre +
+          ' ya tiene la especie ' +
+          especie.nombreComun,
+      });
+    }
+
+    // Si la lista y la especie existen y la lista no tiene la especie, uso el método addEspecie del modelo Lista para asociar la especie a la lista
     await lista.addEspecy(especie);
 
     // Envío una respuesta con el código 200 y un mensaje de éxito
