@@ -132,3 +132,36 @@ export const addSpecieToList = async (req, res) => {
     });
   }
 };
+
+// Función para eliminar una lista
+export const deleteList = async (req, res) => {
+  try {
+    // Obtengo el id de la lista del parámetro de la ruta
+    const { listaId } = req.params;
+
+    // Busco y elimino la lista con el modelo Lista
+    const lista = await Lista.destroy({
+      where: {
+        id: listaId,
+      },
+    });
+
+    // Si la lista no se encuentra, envío una respuesta con el código 404 y un mensaje de error
+    if (!lista) {
+      return res.status(404).json({
+        message: 'No se encontró la lista con el id ' + listaId,
+      });
+    }
+
+    // Si la lista se encuentra y se elimina, envío una respuesta con el código 200 y un mensaje de éxito
+    return res.status(200).json({
+      message: 'La lista se ha eliminado correctamente',
+    });
+  } catch (error) {
+    // Si ocurre un error, envío una respuesta con el código 500 y un mensaje de error
+    return res.status(500).json({
+      message: 'Error al eliminar la lista',
+      error,
+    });
+  }
+};
