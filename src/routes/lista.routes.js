@@ -6,10 +6,11 @@ import * as controller from '../controllers/listas.controller';
 // Creo una instancia de Router
 const router = Router();
 
-router.post('/getLists', controller.getAllLists); // Obtener todas las listas
-router.post('/', controller.createList); // Crear una nueva lista
-router.put('/:lista_id/especies/:especie_id', controller.addSpecieToList); // Agregar una especie a una lista
+router.post('/getLists', controller.getAllLists);
+router.post('/', controller.createList);
+router.put('/:lista_id/especies/:especie_id', controller.addSpecieToList);
 router.delete('/:listaId', controller.deleteList);
+router.put('/:lista_id', controller.updateList);
 
 // Exporto el router
 export default router;

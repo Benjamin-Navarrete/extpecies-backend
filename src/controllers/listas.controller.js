@@ -165,3 +165,39 @@ export const deleteList = async (req, res) => {
     });
   }
 };
+
+// Creo una función para actualizar una lista por su id
+export const updateList = async (req, res) => {
+  try {
+    // Obtengo el id de la lista de los parámetros de la ruta
+    const { lista_id } = req.params;
+
+    // Obtengo los datos del cuerpo de la petición
+    const { nombre, descripcion } = req.body;
+
+    // Valido que la lista exista en la base de datos
+    const lista = await Lista.findByPk(lista_id);
+    if (!lista) {
+      // Si la lista no existe, envío una respuesta con el código 404 y un mensaje de error
+      return res.status(404).json({
+        message: 'No se encontró la lista con el id ' + lista_id,
+      });
+    }
+
+    // Si la lista existe, uso el método update del modelo Lista para actualizar la lista con los nuevos valores
+    const listaActualizada = await lista.update({
+      nombre,
+      descripcion,
+    });
+
+    // Envío una respuesta con el código 200 y la lista actualizada
+    return res.status(200).json({
+      message: 'La lista se ha actualizado correctamente',
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: 'Error al actualizar la lista',
+      error,
+    });
+  }
+};
