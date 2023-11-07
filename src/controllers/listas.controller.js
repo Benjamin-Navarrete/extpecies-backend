@@ -201,3 +201,66 @@ export const updateList = async (req, res) => {
     });
   }
 };
+
+// Creo una función para eliminar una especie de una lista
+export const deleteSpecieFromList = async (req, res) => {
+  try {
+    // Obtengo los parámetros de la ruta
+    const { lista_id, especie_id } = req.params;
+
+    // Valido que la lista exista en la base de datos
+    const lista = await Lista.findByPk(lista_id, {
+      include: {
+        model: Especie,
+        as: 'especies',
+      },
+    });
+    if (!lista) {
+      // Si la lista no existe, envío una respuesta con el código 404 y un mensaje de error
+      return res.status(404).json({
+        message: 'No se encontró la lista con el id ' + lista_id,
+      });
+    }
+
+    // Valido que la especie exista en la base de datos
+    const especie = await Especie.findByPk(especie_id);
+    if (!especie) {
+      // Si la especie no existe, envío una respuesta con el código 404 y un mensaje de error
+      return res.status(404).json({
+        message: 'No se encontró la especie con el id ' + especie_id,
+      });
+    }
+
+    // Valido que la lista tenga la especie que se quiere eliminar
+    const hasEspecie = await lista.hasEspecy(especie); // Uso el método hasEspecie para comprobar si la lista tiene la especie
+    if (!hasEspecie) {
+      // Si la lista no tiene la especie, envío una respuesta con el código 400 y un mensaje de error
+      return res.status(400).json({
+        message:
+          'La lista ' +
+          lista.nombre +
+          ' no tiene la especie ' +
+          especie.nombreComun,
+      });
+    }
+
+    // Si la lista y la especie existen y la lista tiene la especie, uso el método removeEspecie del modelo Lista para desasociar la especie de la lista
+    await lista.removeEspecy(especie);
+
+    // Envío una respuesta con el código 200 y un mensaje de éxito
+    return res.status(200).json({
+      message:
+        'Se ha eliminado la especie ' +
+        especie.nombreComun +
+        ' de la lista ' +
+        lista.nombre,
+    });
+  } catch (error) {
+    console.log(error);
+    // Enviar una respuesta con el código 500 y el error
+    return res.status(500).json({
+      message: 'Error al eliminar la especie de la lista',
+      error,
+    });
+  }
+};

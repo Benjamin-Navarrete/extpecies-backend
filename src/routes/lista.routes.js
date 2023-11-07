@@ -11,6 +11,10 @@ router.post('/', controller.createList);
 router.put('/:lista_id/especies/:especie_id', controller.addSpecieToList);
 router.delete('/:listaId', controller.deleteList);
 router.put('/:lista_id', controller.updateList);
+router.delete(
+  '/:lista_id/especies/:especie_id',
+  controller.deleteSpecieFromList,
+);
 
 // Exporto el router
 export default router;
