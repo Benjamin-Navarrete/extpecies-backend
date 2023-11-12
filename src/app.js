@@ -21,6 +21,8 @@ app.use(morgan('dev'));
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+// Configurar el servidor para que sirva los archivos estáticos desde la carpeta uploads
+app.use(express.static('uploads'));
 
 //routes
 app.use('/api/usuarios', usuariosRoutes);

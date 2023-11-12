@@ -27,6 +27,23 @@ export const obtenerUsuarios = async (req, res) => {
   }
 };
 
+// Crear este nuevo controlador para obtener usuario por id
+export const obtenerUsuarioPorId = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const usuario = await Usuario.findByPk(id);
+
+    if (!usuario) {
+      return res.status(404).json({ error: NOT_FOUND_MESSAGE });
+    }
+
+    handleSuccess(res, usuario);
+  } catch (error) {
+    handleError(res, ERROR_MESSAGES.obtener);
+  }
+};
+
 export const crearUsuario = async (req, res) => {
   try {
     const {
@@ -73,6 +90,9 @@ export const actualizarUsuario = async (req, res) => {
       password,
       pais,
       boletinInformativo,
+      fotoPerfil,
+      fotoPortada,
+      username,
     } = req.body;
 
     // Aquí puedes realizar la validación de los datos recibidos antes de actualizar el usuario
@@ -81,6 +101,22 @@ export const actualizarUsuario = async (req, res) => {
 
     if (!usuario) {
       return res.status(404).json({ error: NOT_FOUND_MESSAGE });
+    }
+
+    // Validar que el username no esté ya tomado por otro usuario
+    const existeUsername = await Usuario.findOne({ where: { username } });
+    if (existeUsername && existeUsername.id !== id) {
+      return res.status(400).json({ error: 'El username ya está en uso' });
+    }
+
+    // Validar que las fotos sean de un formato válido
+    // Puedes usar otro criterio si quieres
+    const formatosValidos = ['image/jpeg', 'image/png'];
+    if (fotoPerfil && !formatosValidos.includes(fotoPerfil.mimetype)) {
+      return res.status(400).json({ error: 'La foto de perfil no es válida' });
+    }
+    if (fotoPortada && !formatosValidos.includes(fotoPortada.mimetype)) {
+      return res.status(400).json({ error: 'La foto de portada no es válida' });
     }
 
     await usuario.update({
@@ -92,6 +128,9 @@ export const actualizarUsuario = async (req, res) => {
       password,
       pais,
       boletinInformativo,
+      fotoPerfil: fotoPerfil ? fotoPerfil.filename : usuario.fotoPerfil,
+      fotoPortada: fotoPortada ? fotoPortada.filename : usuario.fotoPortada,
+      username,
     });
 
     handleSuccess(res, usuario);

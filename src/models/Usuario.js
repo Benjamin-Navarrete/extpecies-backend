@@ -34,12 +34,34 @@ export const Usuario = sequelize.define(
     boletinInformativo: {
       type: DataTypes.BOOLEAN,
     },
+    // Agregar estas dos columnas para la foto de perfil y la foto de portada
+    fotoPerfil: {
+      type: DataTypes.STRING,
+      defaultValue: 'default-profile.jpg', // El nombre de la imagen genérica que provees
+    },
+    fotoPortada: {
+      type: DataTypes.STRING,
+      defaultValue: 'default-cover.jpg', // El nombre de la imagen genérica que provees
+    },
+    // Usar un getter para crear un atributo virtual llamado username
+    username: {
+      type: DataTypes.VIRTUAL,
+      get() {
+        // Una función que devuelve un username a partir del nombre y el apellido del usuario
+        // Puedes usar otro criterio si quieres
+        return (
+          this.getDataValue('nombres').toLowerCase() +
+          '.' +
+          this.getDataValue('apellidos').toLowerCase() +
+          Math.floor(Math.random() * 100) // Un número aleatorio para evitar duplicados
+        );
+      },
+    },
   },
   {
     timestamps: false,
   },
 );
-
 Usuario.belongsTo(Rol, { as: 'rol', foreignKey: 'nombre_rol' });
 Rol.hasMany(Usuario, { as: 'usuarios', foreignKey: 'nombre_rol' });
 
