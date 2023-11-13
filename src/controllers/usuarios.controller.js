@@ -80,9 +80,30 @@ export const crearUsuario = async (req, res) => {
   }
 };
 
+// Crear una función para validar el formato de las imágenes y devolver un mensaje de error si no son válidas
+const validarFormatoImagen = (imagen) => {
+  const formatosValidos = ['image/jpeg', 'image/png'];
+  if (imagen && !formatosValidos.includes(imagen.mimetype)) {
+    return `La imagen ${imagen.fieldname} no es válida`;
+  }
+  return null;
+};
+
+// Crear una función para borrar las imágenes anteriores si el usuario cambia las fotos
+const borrarImagenAnterior = (imagen, usuario) => {
+  if (imagen && imagen.filename !== usuario[imagen.fieldname]) {
+    fs.unlink(path.join('uploads', usuario[imagen.fieldname]), (err) => {
+      if (err) {
+        console.error(err);
+      }
+    });
+  }
+};
+
 export const actualizarUsuario = async (req, res) => {
   try {
     const { id } = req.params;
+    console.log(id);
     const {
       nombre,
       nombres,
@@ -92,10 +113,21 @@ export const actualizarUsuario = async (req, res) => {
       password,
       pais,
       boletinInformativo,
-      fotoPerfil,
-      fotoPortada,
       username,
     } = req.body;
+
+    // Log the incoming data
+    console.log('Incoming data:', req.body);
+
+    // Log the incoming files
+    console.log('Incoming files:', req.files);
+
+    // Obtener las imágenes de la solicitud
+    const fotoPerfil = req.files.fotoPerfil ? req.files.fotoPerfil[0] : null;
+    const fotoPortada = req.files.fotoPortada ? req.files.fotoPortada[0] : null;
+
+    console.log(fotoPerfil);
+    console.log(fotoPortada);
 
     // Aquí puedes realizar la validación de los datos recibidos antes de actualizar el usuario
 
@@ -105,38 +137,36 @@ export const actualizarUsuario = async (req, res) => {
       return res.status(404).json({ error: NOT_FOUND_MESSAGE });
     }
 
-    // Validar que el username no esté ya tomado por otro usuario
-    const existeUsername = await Usuario.findOne({ where: { username } });
-    if (existeUsername && existeUsername.id !== id) {
-      return res.status(400).json({ error: 'El username ya está en uso' });
+    console.log(usuario.username);
+
+    // Fetch the current user's data
+    const currentUser = await Usuario.findOne({ where: { id } });
+
+    // If the username hasn't changed, skip the validation
+    if (currentUser.username === username) {
+      // Continue with the rest of the code
+    } else {
+      // Validar que el username no esté ya tomado por otro usuario
+      const existeUsername = await Usuario.findOne({ where: { username } });
+      if (existeUsername && existeUsername.id !== id) {
+        return res.status(400).json({ error: 'El username ya está en uso' });
+      }
+      // Continue with the rest of the code
     }
 
-    // Validar que las fotos sean de un formato válido
-    // Puedes usar otro criterio si quieres
-    const formatosValidos = ['image/jpeg', 'image/png'];
-    if (fotoPerfil && !formatosValidos.includes(fotoPerfil.mimetype)) {
-      return res.status(400).json({ error: 'La foto de perfil no es válida' });
+    // Validar que las fotos sean de un formato válido usando la función creada
+    const errorFotoPerfil = validarFormatoImagen(fotoPerfil);
+    const errorFotoPortada = validarFormatoImagen(fotoPortada);
+    if (errorFotoPerfil) {
+      return res.status(400).json({ error: errorFotoPerfil });
     }
-    if (fotoPortada && !formatosValidos.includes(fotoPortada.mimetype)) {
-      return res.status(400).json({ error: 'La foto de portada no es válida' });
+    if (errorFotoPortada) {
+      return res.status(400).json({ error: errorFotoPortada });
     }
 
-    // Borrar las imágenes anteriores si el usuario cambia las fotos
-    // Puedes usar otro criterio si quieres
-    if (fotoPerfil && fotoPerfil.filename !== usuario.fotoPerfil) {
-      fs.unlink(path.join('uploads', usuario.fotoPerfil), (err) => {
-        if (err) {
-          console.error(err);
-        }
-      });
-    }
-    if (fotoPortada && fotoPortada.filename !== usuario.fotoPortada) {
-      fs.unlink(path.join('uploads', usuario.fotoPortada), (err) => {
-        if (err) {
-          console.error(err);
-        }
-      });
-    }
+    // Borrar las imágenes anteriores si el usuario cambia las fotos usando la función creada
+    borrarImagenAnterior(fotoPerfil, usuario);
+    borrarImagenAnterior(fotoPortada, usuario);
 
     await usuario.update({
       nombre,
@@ -157,6 +187,8 @@ export const actualizarUsuario = async (req, res) => {
 
     // Crear una variable para guardar la ruta completa de la foto de perfil
     const profilePhotoUrl = path.join(serverUrl, usuario.fotoPerfil);
+    // Crear una variable para guardar la ruta completa de la foto de portada
+    const coverPhotoUrl = path.join(serverUrl, usuario.fotoPortada);
     // Devolver las rutas completas de las fotos en la respuesta
     handleSuccess(res, {
       ...usuario,
@@ -164,6 +196,7 @@ export const actualizarUsuario = async (req, res) => {
       fotoPortada: coverPhotoUrl,
     });
   } catch (error) {
+    console.log(error);
     handleError(res, ERROR_MESSAGES.actualizar);
   }
 };
