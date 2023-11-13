@@ -1,6 +1,8 @@
 // Archivo src\controllers\usuarios.controller.js
 import { Usuario } from '../models/Usuario';
 import bcrypt from 'bcrypt';
+import fs from 'fs';
+import path from 'path';
 
 const handleSuccess = (res, data, status = 200) => {
   res.status(status).json(data);
@@ -119,6 +121,23 @@ export const actualizarUsuario = async (req, res) => {
       return res.status(400).json({ error: 'La foto de portada no es válida' });
     }
 
+    // Borrar las imágenes anteriores si el usuario cambia las fotos
+    // Puedes usar otro criterio si quieres
+    if (fotoPerfil && fotoPerfil.filename !== usuario.fotoPerfil) {
+      fs.unlink(path.join('uploads', usuario.fotoPerfil), (err) => {
+        if (err) {
+          console.error(err);
+        }
+      });
+    }
+    if (fotoPortada && fotoPortada.filename !== usuario.fotoPortada) {
+      fs.unlink(path.join('uploads', usuario.fotoPortada), (err) => {
+        if (err) {
+          console.error(err);
+        }
+      });
+    }
+
     await usuario.update({
       nombre,
       nombres,
@@ -133,7 +152,17 @@ export const actualizarUsuario = async (req, res) => {
       username,
     });
 
-    handleSuccess(res, usuario);
+    // Crear una variable para guardar la ruta base del servidor
+    const serverUrl = 'http://localhost:3500';
+
+    // Crear una variable para guardar la ruta completa de la foto de perfil
+    const profilePhotoUrl = path.join(serverUrl, usuario.fotoPerfil);
+    // Devolver las rutas completas de las fotos en la respuesta
+    handleSuccess(res, {
+      ...usuario,
+      fotoPerfil: profilePhotoUrl,
+      fotoPortada: coverPhotoUrl,
+    });
   } catch (error) {
     handleError(res, ERROR_MESSAGES.actualizar);
   }

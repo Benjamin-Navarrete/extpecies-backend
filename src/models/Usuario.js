@@ -37,31 +37,21 @@ export const Usuario = sequelize.define(
     // Agregar estas dos columnas para la foto de perfil y la foto de portada
     fotoPerfil: {
       type: DataTypes.STRING,
-      defaultValue: 'default-profile.jpg', // El nombre de la imagen genérica que provees
+      defaultValue: 'default-profile.jpg',
     },
     fotoPortada: {
       type: DataTypes.STRING,
-      defaultValue: 'default-cover.jpg', // El nombre de la imagen genérica que provees
+      defaultValue: 'default-cover.jpg',
     },
-    // Usar un getter para crear un atributo virtual llamado username
     username: {
-      type: DataTypes.VIRTUAL,
-      get() {
-        // Una función que devuelve un username a partir del nombre y el apellido del usuario
-        // Puedes usar otro criterio si quieres
-        return (
-          this.getDataValue('nombres').toLowerCase() +
-          '.' +
-          this.getDataValue('apellidos').toLowerCase() +
-          Math.floor(Math.random() * 100) // Un número aleatorio para evitar duplicados
-        );
-      },
+      type: DataTypes.STRING,
     },
   },
   {
     timestamps: false,
   },
 );
+
 Usuario.belongsTo(Rol, { as: 'rol', foreignKey: 'nombre_rol' });
 Rol.hasMany(Usuario, { as: 'usuarios', foreignKey: 'nombre_rol' });
 
@@ -86,4 +76,22 @@ Usuario.prototype.getRoleAndPermissions = async function () {
     rol: usuarioConRol.rol.nombre_rol,
     permisos: usuarioConRol.rol.permisos.map((permiso) => permiso.codigo),
   };
+};
+
+// Función para generar un número aleatorio entre un rango dado y verificar que no exista otro usuario con el mismo username
+Usuario.generarNumeroAleatorio = async function (nombre, apellido, min, max) {
+  // Generar un número aleatorio entre min y max
+  let numero = Math.floor(Math.random() * (max - min + 1)) + min;
+  // Concatenar el nombre y el apellido con el número
+  let username = nombre + '.' + apellido + numero;
+  // Buscar si existe otro usuario con el mismo username
+  let usuario = await Usuario.findOne({ where: { username: username } });
+  // Si existe, generar otro número aleatorio y repetir el proceso
+  while (usuario) {
+    numero = Math.floor(Math.random() * (max - min + 1)) + min;
+    username = nombre + '.' + apellido + numero;
+    usuario = await Usuario.findOne({ where: { username: username } });
+  }
+  // Devolver el username generado
+  return username;
 };

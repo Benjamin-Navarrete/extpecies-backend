@@ -1,3 +1,4 @@
+// Archivo src\config\multer.js
 // Importar multer para subir archivos
 import multer from 'multer';
 

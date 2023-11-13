@@ -37,6 +37,13 @@ export const signUp = async (req, res) => {
     }
 
     const [nombres, apellidos] = nombreCompleto.split(' ');
+    // Generar un username único con el nombre, el apellido y un número aleatorio entre 1 y 1000
+    let username = await Usuario.generarNumeroAleatorio(
+      nombres,
+      apellidos,
+      1,
+      1000,
+    );
     const nuevoUsuario = await Usuario.create({
       nombres,
       apellidos,
@@ -45,6 +52,7 @@ export const signUp = async (req, res) => {
       pais,
       boletinInformativo,
       nombre_rol: rolUsuario.nombre_rol,
+      username, // Agregar el username generado
     });
 
     const token = jwt.sign({ id: nuevoUsuario.id }, process.env.SECRET, {
