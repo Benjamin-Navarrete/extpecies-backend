@@ -264,3 +264,40 @@ export const deleteSpecieFromList = async (req, res) => {
     });
   }
 };
+
+// Creo una función para obtener una lista por su id
+export const getListById = async (req, res) => {
+  try {
+    // Obtengo el id de la lista de los parámetros de la ruta
+    const { lista_id } = req.params;
+
+    console.log(lista_id);
+
+    // Valido que la lista exista en la base de datos
+    const lista = await Lista.findByPk(lista_id, {
+      include: {
+        model: Especie, // Incluyo el modelo Especie para obtener las especies de la lista
+        as: 'especies', // Uso el alias 'especies' que definí en la asociación
+        through: { attributes: [] }, // No incluyo la tabla intermedia
+      },
+    });
+
+    console.log(lista);
+
+    if (!lista) {
+      // Si la lista no existe, envío una respuesta con el código 404 y un mensaje de error
+      return res.status(404).json({
+        message: 'No se encontró la lista con el id ' + lista_id,
+      });
+    }
+
+    // Si la lista existe, envío una respuesta con el código 200 y la lista obtenida
+    return res.status(200).json(lista);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      message: 'Error al obtener la lista por su id',
+      error,
+    });
+  }
+};

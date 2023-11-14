@@ -15,6 +15,7 @@ router.delete(
   '/:lista_id/especies/:especie_id',
   controller.deleteSpecieFromList,
 );
+router.get('/:lista_id', controller.getListById);
 
 // Exporto el router
 export default router;
