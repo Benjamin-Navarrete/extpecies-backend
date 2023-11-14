@@ -46,6 +46,10 @@ export const Usuario = sequelize.define(
     username: {
       type: DataTypes.STRING,
     },
+    especiesVisionadas: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
+    },
   },
   {
     timestamps: false,

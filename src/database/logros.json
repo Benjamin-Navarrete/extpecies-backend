@@ -1,0 +1,62 @@
+[
+  {
+    "nombre": "Explorador Novato",
+    "descripcion": "Has dado tus primeros pasos en Extpecies al ver tu primera especie. ¡Bienvenido al viaje!"
+  },
+  {
+    "nombre": "Ojo Agudo",
+    "descripcion": "¡Has observado 15 especies! Tu agudeza visual está en aumento, ¡sigue explorando el mundo de Extpecies!"
+  },
+  {
+    "nombre": "Eco Explorador",
+    "descripcion": "Con 30 especies vistas, te estás convirtiendo en un auténtico protector del reino animal en Extpecies. ¡Sigue así!"
+  },
+  {
+    "nombre": "Me Gusta Inicial",
+    "descripcion": "Has mostrado tu aprecio dando like a una especie. ¡Un pequeño gesto que significa mucho!"
+  },
+  {
+    "nombre": "Amante de la Biodiversidad",
+    "descripcion": "Has expresado tu amor por 5 especies. Tu corazón late al ritmo de la increíble biodiversidad."
+  },
+  {
+    "nombre": "Guardián de la Naturaleza",
+    "descripcion": "Alcanzaste 15 likes en especies. Eres un auténtico defensor de la vida salvaje en Extpecies."
+  },
+  {
+    "nombre": "Voz Comprometida",
+    "descripcion": "Comentaste en tu primera especie. ¡Tu voz se une al coro de aquellos que defienden la biodiversidad!"
+  },
+  {
+    "nombre": "Comentarista Apasionado",
+    "descripcion": "¡Has compartido tus pensamientos en 5 especies! Tu pasión por la fauna es contagiosa."
+  },
+  {
+    "nombre": "Conversador de la Naturaleza",
+    "descripcion": "Has dejado comentarios en 15 especies. Tu compromiso con la conversación sobre la biodiversidad es ejemplar."
+  },
+  {
+    "nombre": "Creador de Catálogos",
+    "descripcion": "¡Has iniciado tu primera lista! Organizando información para un futuro más consciente, eres el arquitecto de tu propio catálogo de la vida."
+  },
+  {
+    "nombre": "Coleccionista de Especies",
+    "descripcion": "Añadiste una especie a una lista. Tu colección está creciendo, ¡sigue expandiéndola!"
+  },
+  {
+    "nombre": "Guardián de Ecosistemas",
+    "descripcion": "Agregaste 5 especies a una lista. Tu colección no solo es una lista, sino un refugio virtual para la diversidad, eres el guardián de ecosistemas únicos."
+  },
+  {
+    "nombre": "Explorador Inquisitivo",
+    "descripcion": "Completaste el cuestionario, mostrando una curiosidad incansable por la biodiversidad. ¡Sigue explorando y aprendiendo en Extpecies!"
+  },
+  {
+    "nombre": "Sabiduría Natural",
+    "descripcion": "Obtuviste el 100% de respuestas correctas en el cuestionario. ¡Eres un experto en la conservación de especies!"
+  },
+  {
+    "nombre": "Metamorfosis Virtual",
+    "descripcion": "Has transformado tu imagen de perfil o portada. Como una mariposa emergiendo de su capullo, tu presencia en Extpecies se renueva y florece."
+  }
+]

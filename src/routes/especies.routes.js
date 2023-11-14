@@ -1,6 +1,8 @@
 // Archivo src/routes/especieRoutes.js
 import { Router } from 'express';
 import { especieController as controller } from '../controllers/especies.controller';
+import { authLogros } from '../middlewares/authLogros';
+import { speciesLogros } from '../middlewares/logros/species.middleware';
 
 const router = Router();
 
@@ -13,6 +15,6 @@ router.put('/:id', controller.updateSpecies);
 
 router.delete('/:id', controller.deleteSpecies);
 
-router.get('/:id', controller.getSpeciesById);
+router.get('/:id', authLogros, speciesLogros, controller.getSpeciesById);
 
 export default router;
