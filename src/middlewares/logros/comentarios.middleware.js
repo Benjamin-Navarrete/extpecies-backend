@@ -1,5 +1,4 @@
 // Archivo src\middlewares\logros\comentarios.middleware.js
-// Archivo src/middlewares/comentarios/comentarios.middleware.js
 import { Usuario } from '../../models/Usuario';
 import { Comentario } from '../../models/Comentario';
 import { Logro } from '../../models/Logro';
@@ -22,15 +21,8 @@ export const comentariosLogros = async (req, res, next) => {
     where: { usuario_id: usuarioId, especie_id: especieId },
   });
 
-  // Si el usuario no ha comentado la especie antes
-  if (!comentario) {
-    // Crear un nuevo registro en la tabla intermedia
-    await Comentario.create({
-      contenido: req.body.contenido,
-      usuario_id: usuarioId,
-      especie_id: especieId,
-    });
-  }
+  // Pasar el comentario al objeto req
+  req.comentario = comentario;
 
   // Obtener el usuario de la base de datos con sus logros y comentarios asociados
   const usuario = await Usuario.findByPk(usuarioId, {
@@ -53,6 +45,9 @@ export const comentariosLogros = async (req, res, next) => {
   const especiesComentadas = new Set(
     usuario.comentarios.map((comentario) => comentario.especie_id),
   );
+
+  // Agregar el id de la especie de la petición al conjunto
+  especiesComentadas.add(especieId);
 
   // Definir las condiciones para obtener cada logro relacionado con los comentarios
   const condicionesLogros = {
