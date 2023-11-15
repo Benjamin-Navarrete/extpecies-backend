@@ -25,6 +25,15 @@ export const createList = async (req, res) => {
       usuario_id,
     });
 
+    // Si hay un logro, agregarlo al comentario
+    if (req.logro) {
+      comentario.setDataValue('logro', req.logro);
+      console.log(
+        ' LOGRO OBTENIDO ------------------------------------------------------ ',
+        req.logro,
+      );
+    }
+
     // Envío una respuesta con el código 201 y la lista creada
     return res.status(201).json(lista);
   } catch (error) {
