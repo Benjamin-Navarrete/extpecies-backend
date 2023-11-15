@@ -1,13 +1,16 @@
 // Archivo src/routes/comentario.js
 import express from 'express';
 import * as comentarioController from '../controllers/comentario.controller';
+import { comentariosLogros } from '../middlewares/logros/comentarios.middleware';
+import { authLogros } from '../middlewares/authLogros';
 // import authMiddleware from '../middlewares/authMiddleware';
 
 const router = express.Router();
 
 router.post(
   '/comentarios',
-  //   authMiddleware.verificarToken,
+  authLogros,
+  comentariosLogros,
   comentarioController.crearComentario,
 );
 router.get(

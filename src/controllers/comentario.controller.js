@@ -10,6 +10,15 @@ export const crearComentario = async (req, res) => {
       usuario_id,
       especie_id,
     });
+
+    if (req.logro) {
+      comentario.setDataValue('logro', req.logro);
+      console.log(
+        ' LOGRO OBTENIDO ------------------------------------------------------ ',
+        req.logro,
+      );
+    }
+
     res.status(201).json(comentario);
   } catch (error) {
     res.status(400).json({ message: error.message });
