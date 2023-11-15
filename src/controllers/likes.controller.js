@@ -135,6 +135,14 @@ export const crearLike = async (req, res) => {
       id_especie,
     });
 
+    if (req.logro) {
+      like.setDataValue('logro', req.logro);
+      console.log(
+        ' LOGRO OBTENIDO ------------------------------------------------------ ',
+        req.logro,
+      );
+    }
+
     handleSuccess(res, like, 201);
   } catch (error) {
     handleError(res, ERROR_MESSAGES.crear);

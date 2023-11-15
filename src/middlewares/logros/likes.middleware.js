@@ -1,10 +1,10 @@
-// Archivo src\middlewares\logros\species.middleware.js
+// Archivo src\middlewares\logros\likes.middleware.js
 import { Usuario } from '../../models/Usuario';
+import { Likes } from '../../models/Likes';
 import { Logro } from '../../models/Logro';
 import { UsuarioLogro } from '../../models/UsuarioLogro';
-import { EspecieVista } from '../../models/EspecieVista';
 
-export const speciesLogros = async (req, res, next) => {
+export const likesLogros = async (req, res, next) => {
   // Obtener el id del usuario de la petición
   const usuarioId = req.user.id;
 
@@ -14,26 +14,20 @@ export const speciesLogros = async (req, res, next) => {
   }
 
   // Obtener el id de la especie de la url
-  const especieId = req.params.id;
+  const especieId = req.body.id_especie;
 
-  // Consultar si el usuario ha visto la especie antes
-  const especieVista = await EspecieVista.findOne({
+  // Consultar si el usuario ha dado like a la especie antes
+  const like = await Likes.findOne({
     where: { id_usuario: usuarioId, id_especie: especieId },
   });
 
-  // Si el usuario no ha visto la especie antes
-  if (!especieVista) {
-    // Incrementar el contador de especies vistas del usuario
-    await Usuario.increment('especiesVisionadas', { where: { id: usuarioId } });
-
-    // Crear un nuevo registro en la tabla intermedia
-    await EspecieVista.create({
-      id_usuario: usuarioId,
-      id_especie: especieId,
-    });
+  // Si el usuario no ha dado like a la especie antes
+  if (!like) {
+    // Incrementar el contador de likesCount del usuario
+    await Usuario.increment('likesCount', { where: { id: usuarioId } });
   }
 
-  // Obtener el usuario de la base de datos
+  // Obtener el usuario de la base de datos con sus logros asociados
   const usuario = await Usuario.findByPk(usuarioId, {
     include: {
       model: Logro,
@@ -44,11 +38,11 @@ export const speciesLogros = async (req, res, next) => {
   // Obtener los nombres de los logros que el usuario ya tiene
   const logrosUsuario = usuario.logros.map((logro) => logro.nombre);
 
-  // Definir las condiciones para obtener cada logro
+  // Definir las condiciones para obtener cada logro relacionado con los likesCount
   const condicionesLogros = {
-    'Explorador Novato': () => usuario.especiesVisionadas >= 1, // Si el usuario ve una especie
-    'Ojo Agudo': () => usuario.especiesVisionadas >= 15, // Si el usuario ha visto 15 especies
-    'Eco Explorador': () => usuario.especiesVisionadas >= 30, // Si el usuario ha visto 30 especies
+    'Me Gusta Inicial': () => usuario.likesCount >= 1, // Si el usuario da un like
+    'Amante de la Biodiversidad': () => usuario.likesCount >= 5, // Si el usuario da 5 likesCount
+    'Guardián de la Naturaleza': () => usuario.likesCount >= 15, // Si el usuario da 15 likesCount
   };
 
   // Recorrer las condiciones y asignar los logros que se cumplan y que el usuario no tenga

@@ -50,6 +50,10 @@ export const Usuario = sequelize.define(
       type: DataTypes.INTEGER,
       defaultValue: 0,
     },
+    likesCount: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
+    },
   },
   {
     timestamps: false,
