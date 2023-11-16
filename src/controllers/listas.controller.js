@@ -27,7 +27,7 @@ export const createList = async (req, res) => {
 
     // Si hay un logro, agregarlo al comentario
     if (req.logro) {
-      comentario.setDataValue('logro', req.logro);
+      lista.setDataValue('logro', req.logro);
       console.log(
         ' LOGRO OBTENIDO ------------------------------------------------------ ',
         req.logro,
@@ -124,8 +124,18 @@ export const addSpecieToList = async (req, res) => {
     // Si la lista y la especie existen y la lista no tiene la especie, uso el método addEspecie del modelo Lista para asociar la especie a la lista
     await lista.addEspecy(especie);
 
+    // Si hay un logro, agregarlo al comentario
+    if (req.logro) {
+      lista.setDataValue('logro', req.logro);
+      console.log(
+        ' LOGRO OBTENIDO ------------------------------------------------------ ',
+        req.logro,
+      );
+    }
+
     // Envío una respuesta con el código 200 y un mensaje de éxito
     return res.status(200).json({
+      lista,
       message:
         'Se ha añadido la especie ' +
         especie.nombreComun +
