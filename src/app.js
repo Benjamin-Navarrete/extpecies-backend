@@ -14,6 +14,7 @@ import likesRoutes from './routes/likes.routes';
 import comentarioRoutes from './routes/comentario.routes';
 import listaRoutes from './routes/lista.routes';
 import loadLogrosRoutes from './routes/loadLogros.routes';
+import logrosRoutes from './routes/logros.routes';
 
 const app = express();
 
@@ -37,5 +38,6 @@ app.use('/api/likes', likesRoutes);
 app.use('/api/', comentarioRoutes);
 app.use('/api/listas', listaRoutes);
 app.use('/api/', loadLogrosRoutes);
+app.use('/api/logros', logrosRoutes);
 
 export default app;
