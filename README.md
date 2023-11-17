@@ -1,42 +1,27 @@
 # Extpecies Backend
 
-Este proyecto es un backend para una aplicación web que permite visualizar información sobre especies animales en peligro de extinción. El backend está desarrollado en Express y utiliza Sequelize como ORM para la base de datos.
+Extpecies es una API RESTful desarrollada con Node.js, Express y Sequelize que provee los datos y la lógica de negocio para la aplicación web de Extpecies. La API se encarga de gestionar la autenticación y autorización de los usuarios, el almacenamiento y la consulta de los datos de las especies en peligro de extinción, el registro y la evaluación de las respuestas de los usuarios a las preguntas sobre biodiversidad, el cálculo y la actualización de los puntos y los niveles de los usuarios según el sistema de gamificación y la creación y el manejo de las publicaciones y los comentarios de los usuarios en la red social. Extpecies es una API segura, eficiente y escalable que soporta el funcionamiento de la aplicación web de Extpecies.
 
 ## Instalación
 
 1. Clona este repositorio.
-2. Instala las dependencias con `npm install`.
+2. Abre una terminal en la carpeta del proyecto.
+3. Instala las dependencias con `npm install`.
+4. Crea un archivo `.env` en la carpeta `src` con la siguiente información:
+
+```env
+DB_NAME=AQUÍ DEBE IR EL NOMBRE DE TU DB
+DB_USER=AQUÍ DEBE IR EL USUARIO DE TU DB
+DB_PASSWORD=LA CONTRASEÑA DE TU DB
+PORT=3500
+
+SECRET=TU CONTRASEÑA SECRETA
+```
+
+5. Ejecuta `npm run dev` para iniciar el servidor de desarrollo.
 
 ## Scripts
 
 - `npm run dev`: Inicia el servidor de desarrollo.
 - `npm run build`: Construye el proyecto con Babel.
 - `npm start`: Inicia el servidor en producción.
-
-## Dependencias
-
-- bcryptjs: Librería para hashear contraseñas.
-- cors: Middleware de Express para habilitar CORS.
-- express: Framework web de Node.js.
-- jsonwebtoken: Librería para generar y verificar tokens de autenticación.
-- morgan: Middleware de Express para registrar peticiones HTTP.
-- pg: Driver de PostgreSQL para Node.js.
-- pg-hstore: Librería para mapear datos JSON a tipos de datos de PostgreSQL.
-- sequelize: ORM para bases de datos relacionales.
-
-## Estructura del proyecto
-
-- `.babelrc`: Configuración de Babel.
-- `.prettierrc`: Configuración de Prettier.
-- `README.md`: Archivo con información sobre el proyecto.
-- `package-lock.json`: Archivo generado por npm para asegurar la reproducibilidad de las dependencias.
-- `package.json`: Archivo con información sobre el proyecto y sus dependencias.
-- `src/`: Carpeta con el código fuente del proyecto.
-  - `app.js`: Archivo principal de la aplicación Express.
-  - `config.js`: Archivo con la configuración del proyecto.
-  - `controllers/`: Carpeta con los controladores de Express.
-  - `database/`: Carpeta con los archivos relacionados a la base de datos.
-  - `index.js`: Archivo que arranca la aplicación Express y se conecta a la base de datos.
-  - `middlewares/`: Carpeta con los middlewares de Express.
-  - `models/`: Carpeta con los modelos de Sequelize.
-  - `routes/`: Carpeta con los archivos de rutas de Express.
