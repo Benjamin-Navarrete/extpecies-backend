@@ -4,7 +4,7 @@ import path from 'path';
 import { Especie } from '../models/Especie';
 
 const loadJsonToDatabase = async () => {
-  const jsonFilePath = path.resolve(__dirname, 'especies_EX.json');
+  const jsonFilePath = path.resolve(__dirname, 'data_combined.json');
   const json = JSON.parse(fs.readFileSync(jsonFilePath, 'utf8'));
 
   const especies = Object.values(json);
