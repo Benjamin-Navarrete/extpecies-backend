@@ -8,7 +8,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const TOKEN_EXPIRATION = 300; // Tiempo de expiración del token (en segundos)
+const TOKEN_EXPIRATION = 43200; // Tiempo de expiración del token (en segundos)
 
 export const signUp = async (req, res) => {
   try {

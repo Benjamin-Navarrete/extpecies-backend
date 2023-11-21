@@ -5,11 +5,27 @@ import { Usuario } from '../models/Usuario';
 export const crearComentario = async (req, res) => {
   try {
     const { contenido, especie_id, usuario_id } = req.body;
-    const comentario = await Comentario.create({
-      contenido,
-      usuario_id,
-      especie_id,
-    });
+    // Obtener el comentario del objeto req
+    let comentario = req.comentario;
+
+    // Si el comentario no existe, crearlo
+    if (!comentario) {
+      comentario = await Comentario.create({
+        contenido,
+        usuario_id,
+        especie_id,
+      });
+    }
+
+    // Si hay un logro, agregarlo al comentario
+    if (req.logro) {
+      comentario.setDataValue('logro', req.logro);
+      console.log(
+        ' LOGRO OBTENIDO ------------------------------------------------------ ',
+        req.logro,
+      );
+    }
+
     res.status(201).json(comentario);
   } catch (error) {
     res.status(400).json({ message: error.message });

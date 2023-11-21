@@ -46,12 +46,21 @@ export const Usuario = sequelize.define(
     username: {
       type: DataTypes.STRING,
     },
+    especiesVisionadas: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
+    },
+    likesCount: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
+    },
   },
   {
     timestamps: false,
   },
 );
 
+// Relación uno a muchos con Rol
 Usuario.belongsTo(Rol, { as: 'rol', foreignKey: 'nombre_rol' });
 Rol.hasMany(Usuario, { as: 'usuarios', foreignKey: 'nombre_rol' });
 

@@ -25,6 +25,15 @@ export const createList = async (req, res) => {
       usuario_id,
     });
 
+    // Si hay un logro, agregarlo al comentario
+    if (req.logro) {
+      lista.setDataValue('logro', req.logro);
+      console.log(
+        ' LOGRO OBTENIDO ------------------------------------------------------ ',
+        req.logro,
+      );
+    }
+
     // Envío una respuesta con el código 201 y la lista creada
     return res.status(201).json(lista);
   } catch (error) {
@@ -115,8 +124,18 @@ export const addSpecieToList = async (req, res) => {
     // Si la lista y la especie existen y la lista no tiene la especie, uso el método addEspecie del modelo Lista para asociar la especie a la lista
     await lista.addEspecy(especie);
 
+    // Si hay un logro, agregarlo al comentario
+    if (req.logro) {
+      lista.setDataValue('logro', req.logro);
+      console.log(
+        ' LOGRO OBTENIDO ------------------------------------------------------ ',
+        req.logro,
+      );
+    }
+
     // Envío una respuesta con el código 200 y un mensaje de éxito
     return res.status(200).json({
+      lista,
       message:
         'Se ha añadido la especie ' +
         especie.nombreComun +
@@ -260,6 +279,43 @@ export const deleteSpecieFromList = async (req, res) => {
     // Enviar una respuesta con el código 500 y el error
     return res.status(500).json({
       message: 'Error al eliminar la especie de la lista',
+      error,
+    });
+  }
+};
+
+// Creo una función para obtener una lista por su id
+export const getListById = async (req, res) => {
+  try {
+    // Obtengo el id de la lista de los parámetros de la ruta
+    const { lista_id } = req.params;
+
+    console.log(lista_id);
+
+    // Valido que la lista exista en la base de datos
+    const lista = await Lista.findByPk(lista_id, {
+      include: {
+        model: Especie, // Incluyo el modelo Especie para obtener las especies de la lista
+        as: 'especies', // Uso el alias 'especies' que definí en la asociación
+        through: { attributes: [] }, // No incluyo la tabla intermedia
+      },
+    });
+
+    console.log(lista);
+
+    if (!lista) {
+      // Si la lista no existe, envío una respuesta con el código 404 y un mensaje de error
+      return res.status(404).json({
+        message: 'No se encontró la lista con el id ' + lista_id,
+      });
+    }
+
+    // Si la lista existe, envío una respuesta con el código 200 y la lista obtenida
+    return res.status(200).json(lista);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      message: 'Error al obtener la lista por su id',
       error,
     });
   }

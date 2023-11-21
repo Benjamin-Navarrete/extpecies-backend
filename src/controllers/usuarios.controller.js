@@ -34,7 +34,18 @@ export const obtenerUsuarioPorId = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const usuario = await Usuario.findByPk(id);
+    const usuario = await Usuario.findByPk(id, {
+      attributes: [
+        'id',
+        'nombres',
+        'apellidos',
+        'correo',
+        'pais',
+        'fotoPerfil',
+        'fotoPortada',
+        'username',
+      ], // replace with your actual field names
+    });
 
     if (!usuario) {
       return res.status(404).json({ error: NOT_FOUND_MESSAGE });
@@ -103,31 +114,19 @@ const borrarImagenAnterior = (imagen, usuario) => {
 export const actualizarUsuario = async (req, res) => {
   try {
     const { id } = req.params;
-    console.log(id);
     const {
       nombre,
       nombres,
       apellidos,
-      correo,
       telefono,
-      password,
       pais,
       boletinInformativo,
       username,
     } = req.body;
 
-    // Log the incoming data
-    console.log('Incoming data:', req.body);
-
-    // Log the incoming files
-    console.log('Incoming files:', req.files);
-
     // Obtener las imágenes de la solicitud
     const fotoPerfil = req.files.fotoPerfil ? req.files.fotoPerfil[0] : null;
     const fotoPortada = req.files.fotoPortada ? req.files.fotoPortada[0] : null;
-
-    console.log(fotoPerfil);
-    console.log(fotoPortada);
 
     // Aquí puedes realizar la validación de los datos recibidos antes de actualizar el usuario
 
@@ -136,8 +135,6 @@ export const actualizarUsuario = async (req, res) => {
     if (!usuario) {
       return res.status(404).json({ error: NOT_FOUND_MESSAGE });
     }
-
-    console.log(usuario.username);
 
     // Fetch the current user's data
     const currentUser = await Usuario.findOne({ where: { id } });
@@ -172,9 +169,7 @@ export const actualizarUsuario = async (req, res) => {
       nombre,
       nombres,
       apellidos,
-      correo,
       telefono,
-      password,
       pais,
       boletinInformativo,
       fotoPerfil: fotoPerfil ? fotoPerfil.filename : usuario.fotoPerfil,
@@ -196,7 +191,6 @@ export const actualizarUsuario = async (req, res) => {
       fotoPortada: coverPhotoUrl,
     });
   } catch (error) {
-    console.log(error);
     handleError(res, ERROR_MESSAGES.actualizar);
   }
 };

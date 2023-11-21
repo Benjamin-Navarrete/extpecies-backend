@@ -37,7 +37,16 @@ export const especieController = {
       const especie = await Especie.findByPk(id);
       // Verificar si la especie existe
       if (especie) {
-        // Devolver los datos de la especie
+        // Si el objeto req tiene la propiedad req.logro, incluirla en la respuesta
+        // Usar el método setDataValue en lugar de la notación de punto
+        if (req.logro) {
+          especie.setDataValue('logro', req.logro);
+          console.log(
+            ' LOGRO OBTENIDO ------------------------------------------------------ ',
+            req.logro,
+          );
+        }
+        // Devolver los datos de la especie y el logro (si lo hay)
         handleSuccess(res, especie);
       } else {
         // Devolver un mensaje de error si la especie no existe
