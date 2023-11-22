@@ -33,46 +33,10 @@ export const Especie = sequelize.define('especies', {
   estadoConservacion: {
     type: DataTypes.TEXT,
   },
-  sitio: {
+  rangoGeografico: {
     type: DataTypes.TEXT,
   },
-  numeroLocaciones: {
-    type: DataTypes.TEXT,
-  },
-  limiteElevacionSuperior: {
-    type: DataTypes.TEXT,
-    allowNull: true,
-  },
-  limiteElevacionInferior: {
-    type: DataTypes.TEXT,
-    allowNull: true,
-  },
-  descripcionGeografica: {
-    type: DataTypes.TEXT,
-  },
-  tendenciaPoblacion: {
-    type: DataTypes.TEXT,
-  },
-  detallesPoblacion: {
-    type: DataTypes.TEXT,
-  },
-  sistemaHabitat: {
-    type: DataTypes.TEXT,
-  },
-  tiposHabitat: {
-    type: DataTypes.TEXT,
-    allowNull: true,
-  },
-  detallesHabitat: {
-    type: DataTypes.TEXT,
-  },
-  detallesAmenazas: {
-    type: DataTypes.TEXT,
-  },
-  accionesConservacion: {
-    type: DataTypes.TEXT,
-  },
-  bibliografia: {
+  amenazas: {
     type: DataTypes.TEXT,
   },
   latitud: {
