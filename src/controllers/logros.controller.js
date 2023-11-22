@@ -23,6 +23,7 @@ export const getAllAchievementsByUserId = async (req, res) => {
         nombre: logro.nombre,
         descripcion: logro.descripcion,
         desbloqueado,
+        nombre_imagen: logro.nombre_imagen,
       };
     });
 

@@ -17,6 +17,9 @@ export const Logro = sequelize.define(
     descripcion: {
       type: DataTypes.STRING,
     },
+    nombre_imagen: {
+      type: DataTypes.STRING,
+    },
   },
   {
     timestamps: false,
