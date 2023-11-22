@@ -34,7 +34,6 @@ export const Usuario = sequelize.define(
     boletinInformativo: {
       type: DataTypes.BOOLEAN,
     },
-    // Agregar estas dos columnas para la foto de perfil y la foto de portada
     fotoPerfil: {
       type: DataTypes.STRING,
       defaultValue: 'default-profile.jpg',

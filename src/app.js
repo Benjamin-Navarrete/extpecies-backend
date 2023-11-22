@@ -15,6 +15,7 @@ import comentarioRoutes from './routes/comentario.routes';
 import listaRoutes from './routes/lista.routes';
 import loadLogrosRoutes from './routes/loadLogros.routes';
 import logrosRoutes from './routes/logros.routes';
+import cuestionariosRoutes from './routes/cuestionarios.routes';
 
 const app = express();
 
@@ -39,5 +40,6 @@ app.use('/api/', comentarioRoutes);
 app.use('/api/listas', listaRoutes);
 app.use('/api/', loadLogrosRoutes);
 app.use('/api/logros', logrosRoutes);
+app.use('/api/cuestionarios', cuestionariosRoutes);
 
 export default app;
