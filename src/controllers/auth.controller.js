@@ -36,7 +36,11 @@ export const signUp = async (req, res) => {
       rolUsuario = await Rol.create({ nombre_rol: rol });
     }
 
-    const [nombres, apellidos] = nombreCompleto.split(' ');
+    let [nombres, apellidos] = nombreCompleto.split(' ');
+    // si no hay apellidos, asignar un string vacío
+    if (!apellidos) {
+      apellidos = '';
+    }
     // Generar un username único con el nombre, el apellido y un número aleatorio entre 1 y 1000
     let username = await Usuario.generarNumeroAleatorio(nombres, 1, 1000);
     const nuevoUsuario = await Usuario.create({
