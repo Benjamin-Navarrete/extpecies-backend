@@ -103,10 +103,9 @@ const validarFormatoImagen = (imagen) => {
 // Crear una función para borrar las imágenes anteriores si el usuario cambia las fotos
 const borrarImagenAnterior = (imagen, usuario) => {
   if (imagen && imagen.filename !== usuario[imagen.fieldname]) {
-    // Do not delete the image if it's a default image
     if (
-      imagen.filename !== 'default-cover.jpg' &&
-      imagen.filename !== 'default-profile.jpg'
+      usuario[imagen.fieldname] !== 'default-cover.jpg' &&
+      usuario[imagen.fieldname] !== 'default-profile.jpg'
     ) {
       fs.unlink(path.join('uploads', usuario[imagen.fieldname]), (err) => {
         if (err) {
