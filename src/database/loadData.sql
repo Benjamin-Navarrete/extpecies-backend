@@ -37,7 +37,7 @@ INSERT INTO rol_permisos (rol_id, permiso_id) VALUES
 ('usuario', 'MEN_03');
 
 -- Insertar Usuarios
-INSERT INTO usuarios (nombre_rol, nombres, apellidos, correo, password, pais) VALUES 
-('administrador', 'Admin', 'User', 'admin@ejemplo.com', '$2b$10$7RsLxq4bigJohMB2ceECJOKBpBr1kQJ2XlMT0qRqU8/.pM2/08yGy', 'Chile'),
-('editor', 'Editor', 'User', 'editor@ejemplo.com', '$2b$10$wsVM.M.qgtTB.nbUUsznP.eCN1RZYMSH8Lr4nVSnMNPO.YsQRVCZW', 'Chile'),
-('usuario', 'Regular', 'User', 'user@ejemplo.com', '$2b$10$WKikwev3XwW5ZuM.XXfx9uxtJplQc.dhHdusPEMfdyAbzKNFi.4tq', 'Chile');
+INSERT INTO usuarios (nombre_rol, nombres, apellidos, correo, password, pais, username) VALUES 
+('administrador', 'Admin', 'User', 'admin@ejemplo.com', '$2b$10$7RsLxq4bigJohMB2ceECJOKBpBr1kQJ2XlMT0qRqU8/.pM2/08yGy', 'Chile', 'admin'),
+('editor', 'Editor', 'User', 'editor@ejemplo.com', '$2b$10$wsVM.M.qgtTB.nbUUsznP.eCN1RZYMSH8Lr4nVSnMNPO.YsQRVCZW', 'Chile', 'editor'),
+('usuario', 'Regular', 'User', 'user@ejemplo.com', '$2b$10$WKikwev3XwW5ZuM.XXfx9uxtJplQc.dhHdusPEMfdyAbzKNFi.4tq', 'Chile', 'user');
