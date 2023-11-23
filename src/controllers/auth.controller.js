@@ -13,7 +13,8 @@ const TOKEN_EXPIRATION = 43200; // Tiempo de expiración del token (en segundos)
 export const signUp = async (req, res) => {
   try {
     const {
-      nombreCompleto,
+      nombres,
+      apellidos,
       correoElectronico,
       password,
       pais,
@@ -36,11 +37,6 @@ export const signUp = async (req, res) => {
       rolUsuario = await Rol.create({ nombre_rol: rol });
     }
 
-    let [nombres, apellidos] = nombreCompleto.split(' ');
-    // si no hay apellidos, asignar un string vacío
-    if (!apellidos) {
-      apellidos = '';
-    }
     // Generar un username único con el nombre, el apellido y un número aleatorio entre 1 y 1000
     let username = await Usuario.generarNumeroAleatorio(nombres, 1, 1000);
     const nuevoUsuario = await Usuario.create({
