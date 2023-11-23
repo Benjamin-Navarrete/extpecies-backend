@@ -15,6 +15,13 @@ export const crearComentario = async (req, res) => {
         usuario_id,
         especie_id,
       });
+    } else {
+      // Si el comentario existe, crear uno nuevo con el mismo contenido y usuario, pero con un id diferente
+      comentario = await Comentario.create({
+        contenido,
+        usuario_id,
+        especie_id,
+      });
     }
 
     // Si hay un logro, agregarlo al comentario

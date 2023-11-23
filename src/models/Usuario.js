@@ -87,17 +87,17 @@ Usuario.prototype.getRoleAndPermissions = async function () {
 };
 
 // Función para generar un número aleatorio entre un rango dado y verificar que no exista otro usuario con el mismo username
-Usuario.generarNumeroAleatorio = async function (nombre, apellido, min, max) {
+Usuario.generarNumeroAleatorio = async function (nombre, min, max) {
   // Generar un número aleatorio entre min y max
   let numero = Math.floor(Math.random() * (max - min + 1)) + min;
-  // Concatenar el nombre y el apellido con el número
-  let username = nombre + '.' + apellido + numero;
+  // Concatenar el nombre y  con el número
+  let username = nombre + '.' + numero;
   // Buscar si existe otro usuario con el mismo username
   let usuario = await Usuario.findOne({ where: { username: username } });
   // Si existe, generar otro número aleatorio y repetir el proceso
   while (usuario) {
     numero = Math.floor(Math.random() * (max - min + 1)) + min;
-    username = nombre + '.' + apellido + numero;
+    username = nombre + '.' + numero;
     usuario = await Usuario.findOne({ where: { username: username } });
   }
   // Devolver el username generado

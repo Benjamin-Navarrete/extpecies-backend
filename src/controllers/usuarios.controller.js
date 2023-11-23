@@ -218,3 +218,23 @@ export const eliminarUsuario = async (req, res) => {
     handleError(res, ERROR_MESSAGES.eliminar);
   }
 };
+
+// Nuevo controlador para obtener usuario por username
+export const obtenerUsuarioPorUsername = async (req, res) => {
+  try {
+    const { username } = req.params;
+
+    const usuario = await Usuario.findOne({
+      where: { username },
+      attributes: { exclude: ['password'] },
+    });
+
+    if (!usuario) {
+      return res.status(404).json({ error: NOT_FOUND_MESSAGE });
+    }
+
+    handleSuccess(res, usuario);
+  } catch (error) {
+    handleError(res, ERROR_MESSAGES.obtener);
+  }
+};

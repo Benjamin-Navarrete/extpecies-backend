@@ -25,4 +25,7 @@ router.delete('/:id', usuariosController.eliminarUsuario);
 
 router.get('/:id', usuariosController.obtenerUsuarioPorId);
 
+// Nueva ruta para obtener usuario por username
+router.get('/username/:username', usuariosController.obtenerUsuarioPorUsername);
+
 export default router;
