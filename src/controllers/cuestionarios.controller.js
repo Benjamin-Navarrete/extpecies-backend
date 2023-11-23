@@ -10,7 +10,9 @@ const handleError = (res, message, status = 500) => {
   res.status(status).json({ error: message });
 };
 
-const NOT_FOUND_MESSAGE = 'Usuario no encontrado.';
+const USER_NOT_FOUND_MESSAGE = 'Usuario no encontrado.';
+const CUESTIONARIO_NOT_FOUND_MESSAGE = 'Cuestionario no encontrado.';
+
 const ERROR_MESSAGES = {
   crear: 'Ocurrió un error al crear el cuestionario.',
 };
@@ -24,7 +26,7 @@ export const crearCuestionario = async (req, res) => {
     const usuario = await Usuario.findByPk(usuario_id);
 
     if (!usuario) {
-      return res.status(404).json({ error: NOT_FOUND_MESSAGE });
+      return res.status(404).json({ error: USER_NOT_FOUND_MESSAGE });
     }
 
     const cuestionario = await Cuestionario.create({
@@ -47,8 +49,10 @@ export const obtenerCuestionariosPorUsuarioId = async (req, res) => {
 
     const usuario = await Usuario.findByPk(id);
 
+    console.log(usuario);
+
     if (!usuario) {
-      return res.status(404).json({ error: NOT_FOUND_MESSAGE });
+      return res.status(404).json({ error: USER_NOT_FOUND_MESSAGE });
     }
 
     const cuestionarios = await Cuestionario.findAll({
@@ -56,7 +60,8 @@ export const obtenerCuestionariosPorUsuarioId = async (req, res) => {
     });
 
     if (!cuestionarios || cuestionarios.length === 0) {
-      return res.status(404).json({ error: NOT_FOUND_MESSAGE });
+      // devolver cuestionarios vacíos
+      return handleSuccess(res, []);
     }
 
     handleSuccess(res, cuestionarios);
