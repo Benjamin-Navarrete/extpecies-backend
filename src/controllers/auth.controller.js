@@ -89,6 +89,7 @@ export const signIn = async (req, res) => {
       pais: usuario.pais,
       boletinInformativo: usuario.boletinInformativo,
       nombre_rol: usuario.nombre_rol,
+      username: usuario.username,
     };
 
     const token = jwt.sign(
