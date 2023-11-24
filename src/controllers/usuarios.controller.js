@@ -213,7 +213,9 @@ export const actualizarUsuario = async (req, res) => {
 export const actualizarUsuarioByAdmin = async (req, res) => {
   try {
     const { id } = req.params;
-    const { nombres, apellidos, correo, pais, rol } = req.body;
+    const { nombres, apellidos, correo, pais, nombre_rol } = req.body;
+
+    console.log('rol', nombre_rol);
 
     const usuario = await Usuario.findByPk(id);
 
@@ -226,7 +228,7 @@ export const actualizarUsuarioByAdmin = async (req, res) => {
       apellidos,
       correo,
       pais,
-      rol,
+      nombre_rol,
     });
 
     handleSuccess(res, usuario);
