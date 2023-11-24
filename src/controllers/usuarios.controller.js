@@ -70,9 +70,19 @@ export const crearUsuario = async (req, res) => {
       boletinInformativo,
     } = req.body;
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+    // Buscar si existe un usuario con el mismo correo
+    const usuarioExistente = await Usuario.findOne({
+      where: { correo: correo },
+    });
+    console.log(usuarioExistente);
 
-    // demás validaciones, búsqueda de usuario existente, etc...
+    // Si existe, enviar un mensaje de error
+    if (usuarioExistente) {
+      return handleError(res, 'Ya existe un usuario con ese correo', 409);
+    }
+
+    // Si no existe, continuar con la creación del usuario
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     const usuario = await Usuario.create({
       nombre,
@@ -200,9 +210,35 @@ export const actualizarUsuario = async (req, res) => {
   }
 };
 
+export const actualizarUsuarioByAdmin = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { nombres, apellidos, correo, pais, rol } = req.body;
+
+    const usuario = await Usuario.findByPk(id);
+
+    if (!usuario) {
+      return res.status(404).json({ error: NOT_FOUND_MESSAGE });
+    }
+
+    await usuario.update({
+      nombres,
+      apellidos,
+      correo,
+      pais,
+      rol,
+    });
+
+    handleSuccess(res, usuario);
+  } catch (error) {
+    handleError(res, ERROR_MESSAGES.actualizar);
+  }
+};
+
 export const eliminarUsuario = async (req, res) => {
   try {
     const { id } = req.params;
+    console.log(id);
 
     const usuario = await Usuario.findByPk(id);
 
@@ -214,6 +250,7 @@ export const eliminarUsuario = async (req, res) => {
 
     handleSuccess(res, { message: 'Usuario eliminado correctamente.' });
   } catch (error) {
+    console.error(error);
     handleError(res, ERROR_MESSAGES.eliminar);
   }
 };
