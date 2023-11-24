@@ -58,20 +58,5 @@
     "nombre": "Guardián de Ecosistemas",
     "descripcion": "Agregaste 5 especies a una lista. Tu colección no solo es una lista, sino un refugio virtual para la diversidad, eres el guardián de ecosistemas únicos.",
     "nombre_imagen": "guardianEcosistemas.png"
-  },
-  {
-    "nombre": "Explorador Inquisitivo",
-    "descripcion": "Completaste el cuestionario, mostrando una curiosidad incansable por la biodiversidad. ¡Sigue explorando y aprendiendo en Extpecies!",
-    "nombre_imagen": "exploradorInquisitivo.png"
-  },
-  {
-    "nombre": "Sabiduría Natural",
-    "descripcion": "Obtuviste el 100% de respuestas correctas en el cuestionario. ¡Eres un experto en la conservación de especies!",
-    "nombre_imagen": "sabiduriaNatural.png"
-  },
-  {
-    "nombre": "Metamorfosis Virtual",
-    "descripcion": "Has transformado tu imagen de perfil o portada. Como una mariposa emergiendo de su capullo, tu presencia en Extpecies se renueva y florece.",
-    "nombre_imagen": "metamorfosisVirtual.png"
   }
 ]
