@@ -17,4 +17,6 @@ router.delete('/:id', controller.deleteSpecies);
 
 router.get('/:id', authLogros, speciesLogros, controller.getSpeciesById);
 
+router.get('/all/allSpecies', controller.getAllAllSpecies);
+
 export default router;

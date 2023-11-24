@@ -29,6 +29,20 @@ export const especieController = {
     }
   },
 
+  getAllAllSpecies: async (req, res) => {
+    try {
+      // traer todo excepto imagen
+      const especies = await Especie.findAll({
+        attributes: { exclude: ['imagen'] },
+        raw: true, // Agrega esto para obtener resultados sin procesar
+      });
+
+      handleSuccess(res, especies);
+    } catch (error) {
+      handleError(res, error.message);
+    }
+  },
+
   getSpeciesById: async (req, res) => {
     try {
       // Obtener el id de la especie desde el parámetro de la ruta
@@ -59,6 +73,9 @@ export const especieController = {
 
   createSpecies: async (req, res) => {
     try {
+      if (!req.body.imagen) {
+        req.body.imagen = 'https://placehold.co/50x50.jpg';
+      }
       const especie = await Especie.create(req.body);
       handleSuccess(res, especie, 201);
     } catch (error) {
