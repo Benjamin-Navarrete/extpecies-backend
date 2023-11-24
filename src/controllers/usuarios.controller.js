@@ -274,3 +274,36 @@ export const obtenerUsuarioPorUsername = async (req, res) => {
     handleError(res, ERROR_MESSAGES.obtener);
   }
 };
+
+// Nuevo controlador para cambiar contraseña
+export const cambiarContraseña = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { nuevaContraseña } = req.body;
+
+    const usuario = await Usuario.findByPk(id);
+
+    if (!usuario) {
+      return res.status(404).json({ error: NOT_FOUND_MESSAGE });
+    }
+
+    // Hashear la nueva contraseña usando el mismo número de rondas que se usó al crear el usuario
+    const hashedPassword = await bcrypt.hash(nuevaContraseña, 10);
+
+    // Actualizar el usuario con la nueva contraseña hasheada
+    await usuario.update({
+      password: hashedPassword,
+    });
+
+    // Enviar una respuesta exitosa con el usuario actualizado y un mensaje de confirmación
+    handleSuccess(
+      res.status(200).json({
+        usuario,
+        message: 'Contraseña actualizada correctamente.',
+      }),
+    );
+  } catch (error) {
+    console.log(error);
+    handleError(res, ERROR_MESSAGES.actualizar);
+  }
+};

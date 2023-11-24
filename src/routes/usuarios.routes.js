@@ -28,4 +28,8 @@ router.get('/:id', usuariosController.obtenerUsuarioPorId);
 // Nueva ruta para obtener usuario por username
 router.get('/username/:username', usuariosController.obtenerUsuarioPorUsername);
 
+router.put('/editUserByAdmin/:id', usuariosController.actualizarUsuarioByAdmin);
+
+router.put('/cambiar-pass/:id', usuariosController.cambiarContraseña);
+
 export default router;
