@@ -31,10 +31,6 @@ router.put('/editUserByAdmin/:id', usuariosController.actualizarUsuarioByAdmin);
 
 router.put('/cambiar-pass/:id', usuariosController.cambiarContraseña);
 
-// Nueva ruta para activar un usuario por su id
-router.put('/activar/:id', usuariosController.activarUsuario);
-
-// Cambiar el nombre del controlador de desactivarUsuario a eliminarUsuario
-router.delete('/:id', usuariosController.desactivarUsuario);
+router.put('/activar/:id', usuariosController.activarODesactivar);
 
 export default router;

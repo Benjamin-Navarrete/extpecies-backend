@@ -237,10 +237,12 @@ export const actualizarUsuarioByAdmin = async (req, res) => {
   }
 };
 
-export const desactivarUsuario = async (req, res) => {
+export const activarODesactivar = async (req, res) => {
   try {
     const { id } = req.params;
-    console.log(id);
+    // Obtener el estado del usuario desde el body de la petición
+    const { estado } = req.body;
+    console.log(id, estado);
 
     // Buscar el usuario por el id
     const usuario = await Usuario.findByPk(id);
@@ -249,38 +251,17 @@ export const desactivarUsuario = async (req, res) => {
       return res.status(404).json({ error: NOT_FOUND_MESSAGE });
     }
 
-    // En lugar de eliminar el usuario, llamar a la función activarODesactivar con el estado false
-    await Usuario.activarODesactivar(id, false);
+    // Llamar a la función activarODesactivar del modelo de Usuario con el id y el estado del usuario
+    await Usuario.activarODesactivar(id, estado);
 
-    handleSuccess(res, { message: 'Usuario desactivado correctamente.' });
-  } catch (error) {
-    console.error(error);
-    handleError(res, ERROR_MESSAGES.eliminar);
-  }
-};
-
-export const activarUsuario = async (req, res) => {
-  try {
-    const { id } = req.params;
-    console.log(id);
-
-    // Buscar el usuario por el id
-    const usuario = await Usuario.findByPk(id);
-
-    if (!usuario) {
-      return res.status(404).json({ error: NOT_FOUND_MESSAGE });
-    }
-
-    // Llamar a la función activarODesactivar con el estado true
-    await Usuario.activarODesactivar(id, true);
-
-    handleSuccess(res, { message: 'Usuario activado correctamente.' });
+    handleSuccess(res, {
+      message: `Usuario ${estado ? 'activado' : 'desactivado'} correctamente.`,
+    });
   } catch (error) {
     console.error(error);
     handleError(res, ERROR_MESSAGES.activar);
   }
 };
-
 export const obtenerUsuarioPorUsername = async (req, res) => {
   try {
     const { username } = req.params;
