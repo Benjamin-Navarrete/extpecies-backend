@@ -3,6 +3,7 @@ import { Usuario } from '../models/Usuario';
 import bcrypt from 'bcrypt';
 import fs from 'fs';
 import path from 'path';
+import { Op } from 'sequelize';
 
 const handleSuccess = (res, data, status = 200) => {
   res.status(status).json(data);
@@ -18,6 +19,50 @@ const ERROR_MESSAGES = {
   crear: 'Ocurrió un error al crear el usuario.',
   actualizar: 'Ocurrió un error al actualizar el usuario.',
   eliminar: 'Ocurrió un error al eliminar el usuario.',
+};
+
+export const buscarUsuarios = async (req, res) => {
+  try {
+    // Obtener el parámetro de búsqueda de la ruta
+    const { search } = req.params;
+
+    // Agregar la condición de estado "true" en el where
+    const usuarios = await Usuario.findAll({
+      where: {
+        [Op.and]: [
+          {
+            estado: true,
+          },
+          {
+            [Op.or]: [
+              {
+                nombres: {
+                  [Op.like]: `%${search}%`,
+                },
+              },
+              {
+                apellidos: {
+                  [Op.like]: `%${search}%`,
+                },
+              },
+              {
+                username: {
+                  [Op.like]: `%${search}%`,
+                },
+              },
+            ],
+          },
+        ],
+      },
+    });
+
+    // Enviar la respuesta exitosa con los usuarios encontrados
+    handleSuccess(res, usuarios);
+  } catch (error) {
+    console.log(error);
+    // Enviar la respuesta de error con el mensaje de error
+    handleError(res, 'Ocurrió un error al buscar los usuarios.');
+  }
 };
 
 export const obtenerUsuarios = async (req, res) => {
@@ -240,9 +285,6 @@ export const actualizarUsuarioByAdmin = async (req, res) => {
 export const activarODesactivar = async (req, res) => {
   try {
     const { id } = req.params;
-    // Obtener el estado del usuario desde el body de la petición
-    const { estado } = req.body;
-    console.log(id, estado);
 
     // Buscar el usuario por el id
     const usuario = await Usuario.findByPk(id);
@@ -251,17 +293,20 @@ export const activarODesactivar = async (req, res) => {
       return res.status(404).json({ error: NOT_FOUND_MESSAGE });
     }
 
-    // Llamar a la función activarODesactivar del modelo de Usuario con el id y el estado del usuario
-    await Usuario.activarODesactivar(id, estado);
+    // Llamar a la función activarODesactivar del modelo de Usuario con el id y el estado opuesto al que tiene el usuario
+    await Usuario.activarODesactivar(usuario, !usuario.estado);
 
     handleSuccess(res, {
-      message: `Usuario ${estado ? 'activado' : 'desactivado'} correctamente.`,
+      message: `Usuario ${
+        !usuario.estado ? 'activado' : 'desactivado'
+      } correctamente.`,
     });
   } catch (error) {
     console.error(error);
     handleError(res, ERROR_MESSAGES.activar);
   }
 };
+
 export const obtenerUsuarioPorUsername = async (req, res) => {
   try {
     const { username } = req.params;

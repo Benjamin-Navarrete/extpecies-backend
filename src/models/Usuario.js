@@ -53,7 +53,6 @@ export const Usuario = sequelize.define(
       type: DataTypes.INTEGER,
       defaultValue: 0,
     },
-    // Agregar un campo de estado al modelo de Usuario, que sea un booleano que indique si el usuario está activado o desactivado
     estado: {
       type: DataTypes.BOOLEAN,
       defaultValue: true,
@@ -110,15 +109,11 @@ Usuario.generarNumeroAleatorio = async function (nombre, min, max) {
 };
 
 // Crear una función para activar o desactivar un usuario, que reciba el id del usuario y el estado deseado, y que actualice el campo de estado en la base de datos
-Usuario.activarODesactivar = async function (id, estado) {
-  // Buscar el usuario por el id
-  let usuario = await Usuario.findByPk(id);
-  // Si existe, actualizar el campo de estado con el valor recibido
-  if (usuario) {
-    usuario.estado = estado;
-    await usuario.save();
-  }
-  // Devolver el usuario actualizado o null si no se encontró
+Usuario.activarODesactivar = async function (usuario, estado) {
+  // Actualizar el campo de estado con el valor recibido
+  usuario.estado = estado;
+  await usuario.save();
+  // Devolver el usuario actualizado
   return usuario;
 };
 

@@ -33,4 +33,6 @@ router.put('/cambiar-pass/:id', usuariosController.cambiarContraseña);
 
 router.put('/activar/:id', usuariosController.activarODesactivar);
 
+router.get('/search/:search', usuariosController.buscarUsuarios);
+
 export default router;
