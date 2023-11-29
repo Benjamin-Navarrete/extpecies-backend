@@ -11,6 +11,9 @@ yarn-error.log*
 lerna-debug.log*
 .pnpm-debug.log*
 
+# ignorar archivos de build
+
+
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
@@ -76,6 +79,7 @@ web_modules/
 # Yarn Integrity file
 .yarn-integrity
 
+/build
 # dotenv environment variable files
 .env
 .env.development.local
@@ -146,3 +150,7 @@ dist
 # generatedStructure
 generateStructure.js
 proyectStructure.txt
+
+# ignore uploads folder
+uploads
+

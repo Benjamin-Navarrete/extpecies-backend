@@ -237,23 +237,47 @@ export const actualizarUsuarioByAdmin = async (req, res) => {
   }
 };
 
-export const eliminarUsuario = async (req, res) => {
+export const desactivarUsuario = async (req, res) => {
   try {
     const { id } = req.params;
     console.log(id);
 
+    // Buscar el usuario por el id
     const usuario = await Usuario.findByPk(id);
 
     if (!usuario) {
       return res.status(404).json({ error: NOT_FOUND_MESSAGE });
     }
 
-    await usuario.destroy();
+    // En lugar de eliminar el usuario, llamar a la función activarODesactivar con el estado false
+    await Usuario.activarODesactivar(id, false);
 
-    handleSuccess(res, { message: 'Usuario eliminado correctamente.' });
+    handleSuccess(res, { message: 'Usuario desactivado correctamente.' });
   } catch (error) {
     console.error(error);
     handleError(res, ERROR_MESSAGES.eliminar);
+  }
+};
+
+export const activarUsuario = async (req, res) => {
+  try {
+    const { id } = req.params;
+    console.log(id);
+
+    // Buscar el usuario por el id
+    const usuario = await Usuario.findByPk(id);
+
+    if (!usuario) {
+      return res.status(404).json({ error: NOT_FOUND_MESSAGE });
+    }
+
+    // Llamar a la función activarODesactivar con el estado true
+    await Usuario.activarODesactivar(id, true);
+
+    handleSuccess(res, { message: 'Usuario activado correctamente.' });
+  } catch (error) {
+    console.error(error);
+    handleError(res, ERROR_MESSAGES.activar);
   }
 };
 

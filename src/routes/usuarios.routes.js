@@ -12,6 +12,7 @@ router.get('/', usuariosController.obtenerUsuarios);
 router.post('/', usuariosController.crearUsuario);
 
 // Modificar esta ruta para que use multer y suba las imágenes
+// Agregar el middleware verificarEstado para que solo los usuarios activados puedan actualizar sus datos
 router.put(
   '/:id',
   upload.fields([
@@ -21,8 +22,6 @@ router.put(
   usuariosController.actualizarUsuario,
 );
 
-router.delete('/:id', usuariosController.eliminarUsuario);
-
 router.get('/:id', usuariosController.obtenerUsuarioPorId);
 
 // Nueva ruta para obtener usuario por username
@@ -31,5 +30,11 @@ router.get('/username/:username', usuariosController.obtenerUsuarioPorUsername);
 router.put('/editUserByAdmin/:id', usuariosController.actualizarUsuarioByAdmin);
 
 router.put('/cambiar-pass/:id', usuariosController.cambiarContraseña);
+
+// Nueva ruta para activar un usuario por su id
+router.put('/activar/:id', usuariosController.activarUsuario);
+
+// Cambiar el nombre del controlador de desactivarUsuario a eliminarUsuario
+router.delete('/:id', usuariosController.desactivarUsuario);
 
 export default router;
