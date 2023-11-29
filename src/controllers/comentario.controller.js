@@ -43,9 +43,16 @@ export const obtenerComentarios = async (req, res) => {
   try {
     const { especie_id, page, limit } = req.query;
     const offset = (page - 1) * limit;
+    // Usar el scope activos del modelo de Usuario en la consulta de los comentarios
     const comentarios = await Comentario.findAndCountAll({
       where: { especie_id },
-      include: [{ model: Usuario, attributes: ['nombres', 'apellidos'] }],
+      include: [
+        {
+          // Usar la propiedad model con el valor Usuario.scope('activos') para aplicar el scope al modelo incluido
+          model: Usuario.scope('activos'),
+          attributes: ['nombres', 'apellidos'],
+        },
+      ],
       order: [['fecha', 'DESC']],
       offset,
       limit,

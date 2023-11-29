@@ -281,7 +281,6 @@ export const activarUsuario = async (req, res) => {
   }
 };
 
-// Nuevo controlador para obtener usuario por username
 export const obtenerUsuarioPorUsername = async (req, res) => {
   try {
     const { username } = req.params;
@@ -295,6 +294,15 @@ export const obtenerUsuarioPorUsername = async (req, res) => {
       return res.status(404).json({ error: NOT_FOUND_MESSAGE });
     }
 
+    // Agregar una condición para verificar el campo de estado del usuario
+    if (!usuario.estado) {
+      // Si el usuario está desactivado, enviar un mensaje de error
+      return res.status(404).json({
+        error: 'El usuario no se encontró o está inactivo.',
+      });
+    }
+
+    // Si el usuario está activado, enviar el usuario como respuesta
     handleSuccess(res, usuario);
   } catch (error) {
     handleError(res, ERROR_MESSAGES.obtener);

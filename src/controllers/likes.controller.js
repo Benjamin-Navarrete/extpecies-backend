@@ -108,7 +108,6 @@ export const getLikesByEspecie = async (req, res) => {
 };
 
 export const getLikesCountByEspecie = async (req, res) => {
-  console.log('ENTER');
   try {
     const { id } = req.params;
 
