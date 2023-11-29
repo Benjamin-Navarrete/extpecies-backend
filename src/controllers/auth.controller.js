@@ -72,6 +72,15 @@ export const signIn = async (req, res) => {
       return res.status(404).json({ message: 'Usuario no registrado' });
     }
 
+    // Agregar una condición para verificar el campo de estado del usuario
+    if (!usuario.estado) {
+      // Si el usuario está desactivado, enviar un mensaje de error
+      return res.status(401).json({
+        message:
+          'Su cuenta está inactiva. Por favor, contacte al administrador para activarla.',
+      });
+    }
+
     const passwordValido = await comparePassword(password, usuario.password);
     if (!passwordValido) {
       return res.status(401).json({ message: 'Contraseña incorrecta' });
