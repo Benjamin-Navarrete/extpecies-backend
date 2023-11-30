@@ -50,7 +50,7 @@ export const obtenerComentarios = async (req, res) => {
         {
           // Usar la propiedad model con el valor Usuario.scope('activos') para aplicar el scope al modelo incluido
           model: Usuario.scope('activos'),
-          attributes: ['nombres', 'apellidos'],
+          attributes: ['nombres', 'apellidos', 'username'],
         },
       ],
       order: [['fecha', 'DESC']],
