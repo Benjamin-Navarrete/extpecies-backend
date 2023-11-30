@@ -89,6 +89,7 @@ export const obtenerUsuarioPorId = async (req, res) => {
         'fotoPerfil',
         'fotoPortada',
         'username',
+        'estado',
       ], // replace with your actual field names
     });
 
